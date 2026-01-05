@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture - {{ sale.id }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+        }
+        
+        .company-info h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .company-info p {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .invoice-title {
+            text-align: right;
+        }
+        
+        .invoice-title h2 {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .invoice-number {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Invoice Info */
+        .invoice-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .info-block {
+            width: 45%;
+        }
+        
+        .info-block h3 {
+            font-size: 14px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        
+        .info-block p {
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+        
+        /* Table */
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .invoice-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        .invoice-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 11px;
+        }
+        
+        .invoice-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .invoice-table .text-right {
+            text-align: right;
+        }
+        
+        .invoice-table .text-center {
+            text-align: center;
+        }
+        
+        .invoice-table tfoot tr {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        .invoice-table tfoot td {
+            padding: 10px 8px;
+            border-top: 2px solid #2c3e50;
+        }
+        
+        /* Totals */
+        .totals {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+        }
+        
+        .totals-table {
+            width: 300px;
+            border-collapse: collapse;
+        }
+        
+        .totals-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .totals-table .total-row {
+            background-color: #2c3e50;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .totals-table .total-row td {
+            border: none;
+            padding: 12px;
+        }
+        
+        /* Footer */
+        .invoice-footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .invoice-footer p {
+            margin-bottom: 5px;
+        }
+        
+        /* Payment Info */
+        .payment-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .payment-info h4 {
+            font-size: 12px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .payment-info p {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-paid {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .status-pending {
+            background-color: #f39c12;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-info">
+                <h1>{{ company.name }}</h1>
+                <p>{{ company.address }}</p>
+                <p>Téléphone: {{ company.phone }}</p>
+                <p>Email: {{ company.email }}</p>
+                <p>SIRET: {{ company.siret }}</p>
+            </div>
+            <div class="invoice-title">
+                <h2>FACTURE</h2>
+                <p class="invoice-number">N° {{ sale.id|stringformat:"06d" }}</p>
+                <p>Date: {{ sale.date|date:"d/m/Y" }}</p>
+                <p>Heure: {{ sale.date|time:"H:i" }}</p>
+            </div>
+        </div>
+        
+        <!-- Invoice Info -->
+        <div class="invoice-info">
+            <div class="info-block">
+                <h3>Informations Client</h3>
+                <p><strong>Nom:</strong> {{ sale.customer_name }}</p>
+                <p><strong>Date:</strong> {{ sale.date|date:"d/m/Y" }}</p>
+                <p><strong>Mode de paiement:</strong> {{ sale.get_payment_method_display }}</p>
+            </div>
+            <div class="info-block">
+                <h3>Informations Pharmacie</h3>
+                <p><strong>{{ company.name }}</strong></p>
+                <p>{{ company.address }}</p>
+                <p>{{ company.phone }}</p>
+            </div>
+        </div>
+        
+        <!-- Items Table -->
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">N°</th>
+                    <th style="width: 35%;">Désignation</th>
+                    <th style="width: 15%;" class="text-center">Quantité</th>
+                    <th style="width: 20%;" class="text-right">Prix Unitaire</th>
+                    <th style="width: 25%;" class="text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in sale_items %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>
+                        {{ item.medicine.name }}
+                        {% if item.medicine.batch_number %}
+                        <br><small style="color: #999;">Lot: {{ item.medicine.batch_number }}</small>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">{{ item.quantity }}</td>
+                    <td class="text-right">{{ item.price|floatformat:2 }} €</td>
+                    <td class="text-right">{{ item.total|floatformat:2 }} €</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right">Sous-total:</td>
+                    <td class="text-right">{{ sale.total_amount|floatformat:2 }} €</td>
+                </tr>
+                {% if sale.discount > 0 %}
+                <tr>
+                    <td colspan="4" class="text-right">Remise:</td>
+                    <td class="text-right">-{{ sale.discount|floatformat:2 }} €</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td colspan="4" class="text-right">TOTAL:</td>
+                    <td class="text-right">{{ sale.final_amount|floatformat:2 }} €</td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <!-- Payment Info -->
+        <div class="payment-info">
+            <h4>Informations de paiement</h4>
+            <p>Mode de paiement: <strong>{{ sale.get_payment_method_display }}</strong></p>
+            {% if sale.discount > 0 %}
+            <p>Une remise de <strong>{{ sale.discount|floatformat:2 }}€</strong> a été appliquée.</p>
+            {% endif %}
+        </div>
+        
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <p>Merci de votre confiance !</p>
+            <p>{{ company.name }} - {{ company.address }}</p>
+            <p>TVA non applicable, art. 293 B du CGI</p>
+        </div>
+    </div>
+</body>
+</html>
+

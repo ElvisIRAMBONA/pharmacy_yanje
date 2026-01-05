@@ -1,0 +1,11 @@
+from django.contrib import admin
+from .models import InventoryItem
+
+
+@admin.register(InventoryItem)
+class InventoryItemAdmin(admin.ModelAdmin):
+    list_display = ("medicine", "current_stock", "reorder_level")
+    list_filter = ("reorder_level",)
+    search_fields = ("medicine__name",)
+    ordering = ("medicine__name",)
+

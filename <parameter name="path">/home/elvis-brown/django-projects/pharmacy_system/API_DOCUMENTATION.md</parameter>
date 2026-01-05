@@ -1,0 +1,241 @@
+<parameter name="content"># Pharmacy Management System - API Documentation
+
+## Base URL
+```
+http://localhost:8000
+```
+
+## Authentication
+All endpoints require JWT authentication. Include header:
+```
+Authorization: Bearer <token>
+```
+
+---
+
+## Authentication Endpoints
+
+### Register
+- **Method:** POST
+- **URL:** `/api/auth/register/`
+- **Body:**
+```json
+{
+  "username": "string",
+  "email": "string",
+  "password": "string",
+  "first_name": "string",
+  "last_name": "string",
+  "role": "pharmacist|customer|cashier"
+}
+```
+
+### Login
+- **Method:** POST
+- **URL:** `/api/auth/login/`
+- **Body:**
+```json
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+---
+
+## Users Endpoints
+
+| Method | URL | Description |
+|--------|-----|-------------|
+| GET | `/api/auth/users/` | List all users |
+| POST | `/api/auth/users/` | Create new user |
+| GET | `/api/auth/users/<id>/` | Get user details |
+| PUT | `/api/auth/users/<id>/` | Update user |
+| DELETE | `/api/auth/users/<id>/` | Delete user |
+
+---
+
+## Medicines Endpoints
+
+| Method | URL | Description |
+|--------|-----|-------------|
+| GET | `/api/medicines/` | List all medicines |
+| POST | `/api/medicines/` | Create medicine |
+| GET | `/api/medicines/<id>/` | Get medicine details |
+| PUT | `/api/medicines/<id>/` | Update medicine |
+| DELETE | `/api/medicines/<id>/` | Delete medicine |
+| GET | `/api/medicines/expired/` | Get expired medicines |
+| GET | `/api/medicines/low-stock/` | Get low stock medicines |
+
+### Create Medicine Body:
+```json
+{
+  "name": "Doliprane 1000mg",
+  "category": "Antalgique",
+  "price": "8.50",
+  "quantity": 150,
+  "batch_number": "BATCH001",
+  "expiration_date": "2025-12-31",
+  "supplier": 1
+}
+```
+
+---
+
+## Inventory Endpoints
+
+| Method | URL | Description |
+|--------|-----|-------------|
+| GET | `/api/inventory/` | List inventory items |
+| POST | `/api/inventory/` | Create inventory item |
+| GET | `/api/inventory/<id>/` | Get inventory details |
+| PUT | `/api/inventory/<id>/` | Update inventory |
+| DELETE | `/api/inventory/<id>/` | Delete inventory item |
+| GET | `/api/inventory/alerts/low-stock/` | Get low stock alerts |
+| GET | `/api/inventory/stats/` | Get inventory statistics |
+
+### Create Inventory Body:
+```json
+{
+  "medicine": 1,
+  "current_stock": 150,
+  "reorder_level": 20
+}
+```
+
+---
+
+## Suppliers Endpoints
+
+| Method | URL | Description |
+|--------|-----|-------------|
+| GET | `/api/suppliers/` | List all suppliers |
+| POST | `/api/suppliers/` | Create supplier |
+| GET | `/api/suppliers/<id>/` | Get supplier details |
+| PUT | `/api/suppliers/<id>/` | Update supplier |
+| DELETE | `/api/suppliers/<id>/` | Deactivate supplier |
+
+### Create Supplier Body:
+```json
+{
+  "name": "PharmaDist France",
+  "contact_info": "contact@pharmadist.fr",
+  "address": "123 Rue de la Santé",
+  "email": "contact@pharmadist.fr",
+  "phone": "0123456789"
+}
+```
+
+---
+
+## Purchase Orders Endpoints
+
+| Method | URL | Description |
+|--------|-----|-------------|
+| GET | `/api/suppliers/orders/` | List all purchase orders |
+| POST | `/api/suppliers/orders/` | Create purchase order |
+| GET | `/api/suppliers/orders/<id>/` | Get order details |
+| PUT | `/api/suppliers/orders/<id>/` | Update order |
+| DELETE | `/api/suppliers/orders/<id>/` | Delete order |
+
+### Create Purchase Order Body:
+```json
+{
+  "supplier": 1,
+  "expected_delivery": "2025-02-01",
+  "status": "pending",
+  "notes": "Commande urgente",
+  "items": [
+    {
+      "medicine_name": "Doliprane 1000mg",
+      "quantity": 100,
+      "unit_price": "5.00"
+    }
+  ]
+}
+```
+
+---
+
+## Sales Endpoints
+
+| Method | URL | Description |
+|--------|-----|-------------|
+| GET | `/api/sales/` | List all sales |
+| POST | `/api/sales/` | Create sale |
+| GET | `/api/sales/<id>/` | Get sale details |
+| PUT | `/api/sales/<id>/` | Update sale |
+| DELETE | `/api/sales/<id>/` | Delete sale |
+| GET | `/api/sales/reports/daily/` | Daily sales report |
+| GET | `/api/sales/reports/monthly/` | Monthly sales report |
+| GET | `/api/sales/reports/expired-medicines/` | Expired medicines report |
+
+### Create Sale Body:
+```json
+{
+  "customer_name": "Jean Dupont",
+  "discount": "5.00",
+  "payment_method": "card",
+  "items": [
+    {
+      "medicine": 1,
+      "quantity": 2
+    }
+  ]
+}
+```
+
+### Daily Report Params:
+- `date` (optional): YYYY-MM-DD format
+
+### Monthly Report Params:
+- `year` (optional): YYYY
+- `month` (optional): 1-12
+
+---
+
+## Models Reference
+
+### User Roles
+- `pharmacist` - Full access
+- `cashier` - Sales access
+- `customer` - Limited access
+
+### Payment Methods
+- `cash`
+- `card`
+- `insurance`
+- `transfer`
+
+### Purchase Order Status
+- `pending`
+- `approved`
+- `ordered`
+- `received`
+- `cancelled`
+
+---
+
+## Error Responses
+
+### 400 Bad Request
+```json
+{
+  "error": "Validation error details"
+}
+```
+
+### 401 Unauthorized
+```json
+{
+  "detail": "Authentication credentials were not provided."
+}
+```
+
+### 404 Not Found
+```json
+{
+  "detail": "Not found."
+}
+```
+</parameter>
