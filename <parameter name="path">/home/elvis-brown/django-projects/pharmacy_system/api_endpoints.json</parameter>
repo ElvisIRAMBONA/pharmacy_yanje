@@ -1,0 +1,68 @@
+<parameter name="content">{
+  "project": "Pharmacy Management System",
+  "version": "1.0.0",
+  "base_url": "http://localhost:8000",
+  "endpoints": {
+    "authentication": {
+      "register": {
+        "method": "POST",
+        "url": "/api/auth/register/",
+        "description": "Register a new user"
+      },
+      "login": {
+        "method": "POST",
+        "url": "/api/auth/login/",
+        "description": "Login and get JWT token"
+      }
+    },
+    "users": {
+      "list": {"method": "GET", "url": "/api/auth/users/"},
+      "create": {"method": "POST", "url": "/api/auth/users/"},
+      "detail": {"method": "GET", "url": "/api/auth/users/<id>/"},
+      "update": {"method": "PUT", "url": "/api/auth/users/<id>/"},
+      "delete": {"method": "DELETE", "url": "/api/auth/users/<id>/"}
+    },
+    "medicines": {
+      "list": {"method": "GET", "url": "/api/medicines/"},
+      "create": {"method": "POST", "url": "/api/medicines/"},
+      "detail": {"method": "GET", "url": "/api/medicines/<id>/"},
+      "update": {"method": "PUT", "url": "/api/medicines/<id>/"},
+      "delete": {"method": "DELETE", "url": "/api/medicines/<id>/"},
+      "expired": {"method": "GET", "url": "/api/medicines/expired/"},
+      "low_stock": {"method": "GET", "url": "/api/medicines/low-stock/"}
+    },
+    "inventory": {
+      "list": {"method": "GET", "url": "/api/inventory/"},
+      "create": {"method": "POST", "url": "/api/inventory/"},
+      "detail": {"method": "GET", "url": "/api/inventory/<id>/"},
+      "update": {"method": "PUT", "url": "/api/inventory/<id>/"},
+      "delete": {"method": "DELETE", "url": "/api/inventory/<id>/"},
+      "low_stock_alerts": {"method": "GET", "url": "/api/inventory/alerts/low-stock/"},
+      "stats": {"method": "GET", "url": "/api/inventory/stats/"}
+    },
+    "suppliers": {
+      "list": {"method": "GET", "url": "/api/suppliers/"},
+      "create": {"method": "POST", "url": "/api/suppliers/"},
+      "detail": {"method": "GET", "url": "/api/suppliers/<id>/"},
+      "update": {"method": "PUT", "url": "/api/suppliers/<id>/"},
+      "delete": {"method": "DELETE", "url": "/api/suppliers/<id>/"}
+    },
+    "purchase_orders": {
+      "list": {"method": "GET", "url": "/api/suppliers/orders/"},
+      "create": {"method": "POST", "url": "/api/suppliers/orders/"},
+      "detail": {"method": "GET", "url": "/api/suppliers/orders/<id>/"},
+      "update": {"method": "PUT", "url": "/api/suppliers/orders/<id>/"},
+      "delete": {"method": "DELETE", "url": "/api/suppliers/orders/<id>/"}
+    },
+    "sales": {
+      "list": {"method": "GET", "url": "/api/sales/"},
+      "create": {"method": "POST", "url": "/api/sales/"},
+      "detail": {"method": "GET", "url": "/api/sales/<id>/"},
+      "update": {"method": "PUT", "url": "/api/sales/<id>/"},
+      "delete": {"method": "DELETE", "url": "/api/sales/<id>/"},
+      "daily_report": {"method": "GET", "url": "/api/sales/reports/daily/"},
+      "monthly_report": {"method": "GET", "url": "/api/sales/reports/monthly/"},
+      "expired_medicines_report": {"method": "GET", "url": "/api/sales/reports/expired-medicines/"}
+    }
+  }
+}</parameter>

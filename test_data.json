@@ -1,0 +1,521 @@
+[
+  {
+    "model": "suppliers.supplier",
+    "pk": 1,
+    "fields": {
+      "name": "PharmaDist France",
+      "contact_info": "contact@pharmadist.fr, 01 23 45 67 89",
+      "address": "123 Rue de la Distribution, 75001 Paris, France",
+      "email": "contact@pharmadist.fr",
+      "phone": "01 23 45 67 89",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "suppliers.supplier",
+    "pk": 2,
+    "fields": {
+      "name": "MediSupply International",
+      "contact_info": "info@medisupply.com, +33 6 12 34 56 78",
+      "address": "456 Avenue Internationale, 69002 Lyon, France",
+      "email": "info@medisupply.com",
+      "phone": "+33 6 12 34 56 78",
+      "is_active": true,
+      "created_at": "2024-01-02T00:00:00Z"
+    }
+  },
+  {
+    "model": "suppliers.supplier",
+    "pk": 3,
+    "fields": {
+      "name": "Laboratoire Santé Plus",
+      "contact_info": "contact@santeplus.fr, 04 56 78 90 12",
+      "address": "789 Boulevard de la Santé, 13001 Marseille, France",
+      "email": "contact@santeplus.fr",
+      "phone": "04 56 78 90 12",
+      "is_active": true,
+      "created_at": "2024-01-03T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 1,
+    "fields": {
+      "username": "pharmacist1",
+      "email": "pharmacist1@pharmacy.com",
+      "first_name": "Jean",
+      "last_name": "Dupont",
+      "role": "pharmacist",
+      "is_staff": true,
+      "is_active": true,
+      "password": "pbkdf2_sha256$720000$test"
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 2,
+    "fields": {
+      "username": "pharmacist2",
+      "email": "pharmacist2@pharmacy.com",
+      "first_name": "Marie",
+      "last_name": "Martin",
+      "role": "pharmacist",
+      "is_staff": true,
+      "is_active": true,
+      "password": "pbkdf2_sha256$720000$test"
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 3,
+    "fields": {
+      "username": "cashier1",
+      "email": "cashier1@pharmacy.com",
+      "first_name": "Pierre",
+      "last_name": "Bernard",
+      "role": "cashier",
+      "is_staff": false,
+      "is_active": true,
+      "password": "pbkdf2_sha256$720000$test"
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 4,
+    "fields": {
+      "username": "cashier2",
+      "email": "cashier2@pharmacy.com",
+      "first_name": "Sophie",
+      "last_name": "Petit",
+      "role": "cashier",
+      "is_staff": false,
+      "is_active": true,
+      "password": "pbkdf2_sha256$720000$test"
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 5,
+    "fields": {
+      "username": "customer1",
+      "email": "client1@email.com",
+      "first_name": "Thomas",
+      "last_name": "Robert",
+      "role": "customer",
+      "is_staff": false,
+      "is_active": true,
+      "password": "pbkdf2_sha256$720000$test"
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 6,
+    "fields": {
+      "username": "customer2",
+      "email": "client2@email.com",
+      "first_name": "Julie",
+      "last_name": "Moreau",
+      "role": "customer",
+      "is_staff": false,
+      "is_active": true,
+      "password": "pbkdf2_sha256$720000$test"
+    }
+  },
+  {
+    "model": "medicines.medicine",
+    "pk": 1,
+    "fields": {
+      "name": "Doliprane 1000mg",
+      "category": "Antalgique",
+      "price": "8.50",
+      "quantity": 150,
+      "batch_number": "LOT-2024-001-DP1",
+      "expiration_date": "2025-12-31",
+      "supplier": 1
+    }
+  },
+  {
+    "model": "medicines.medicine",
+    "pk": 2,
+    "fields": {
+      "name": "Efferalgan 500mg",
+      "category": "Antalgique",
+      "price": "6.75",
+      "quantity": 200,
+      "batch_number": "LOT-2024-002-EF1",
+      "expiration_date": "2025-06-30",
+      "supplier": 1
+    }
+  },
+  {
+    "model": "medicines.medicine",
+    "pk": 3,
+    "fields": {
+      "name": "Amoxicilline 500mg",
+      "category": "Antibiotique",
+      "price": "12.00",
+      "quantity": 80,
+      "batch_number": "LOT-2024-003-AM1",
+      "expiration_date": "2025-09-15",
+      "supplier": 2
+    }
+  },
+  {
+    "model": "medicines.medicine",
+    "pk": 4,
+    "fields": {
+      "name": "Spasfon",
+      "category": "Antispasmodique",
+      "price": "9.25",
+      "quantity": 100,
+      "batch_number": "LOT-2024-004-SP1",
+      "expiration_date": "2025-08-20",
+      "supplier": 2
+    }
+  },
+  {
+    "model": "medicines.medicine",
+    "pk": 5,
+    "fields": {
+      "name": "Smecta",
+      "category": "Antidiarrhéique",
+      "price": "7.50",
+      "quantity": 120,
+      "batch_number": "LOT-2024-005-SM1",
+      "expiration_date": "2025-11-10",
+      "supplier": 3
+    }
+  },
+  {
+    "model": "medicines.medicine",
+    "pk": 6,
+    "fields": {
+      "name": "Lysopaïne",
+      "category": "Sirop",
+      "price": "11.00",
+      "quantity": 60,
+      "batch_number": "LOT-2024-006-LY1",
+      "expiration_date": "2025-07-05",
+      "supplier": 3
+    }
+  },
+  {
+    "model": "medicines.medicine",
+    "pk": 7,
+    "fields": {
+      "name": "Vitamine C",
+      "category": "Complément alimentaire",
+      "price": "5.90",
+      "quantity": 250,
+      "batch_number": "LOT-2024-007-VC1",
+      "expiration_date": "2026-01-31",
+      "supplier": 1
+    }
+  },
+  {
+    "model": "medicines.medicine",
+    "pk": 8,
+    "fields": {
+      "name": "Bétadine Scrub",
+      "category": "Antiseptique",
+      "price": "14.50",
+      "quantity": 45,
+      "batch_number": "LOT-2024-008-BT1",
+      "expiration_date": "2025-10-15",
+      "supplier": 2
+    }
+  },
+  {
+    "model": "inventory.inventoryitem",
+    "pk": 1,
+    "fields": {
+      "medicine": 1,
+      "current_stock": 150,
+      "reorder_level": 20
+    }
+  },
+  {
+    "model": "inventory.inventoryitem",
+    "pk": 2,
+    "fields": {
+      "medicine": 2,
+      "current_stock": 200,
+      "reorder_level": 25
+    }
+  },
+  {
+    "model": "inventory.inventoryitem",
+    "pk": 3,
+    "fields": {
+      "medicine": 3,
+      "current_stock": 80,
+      "reorder_level": 15
+    }
+  },
+  {
+    "model": "inventory.inventoryitem",
+    "pk": 4,
+    "fields": {
+      "medicine": 4,
+      "current_stock": 100,
+      "reorder_level": 20
+    }
+  },
+  {
+    "model": "inventory.inventoryitem",
+    "pk": 5,
+    "fields": {
+      "medicine": 5,
+      "current_stock": 120,
+      "reorder_level": 20
+    }
+  },
+  {
+    "model": "inventory.inventoryitem",
+    "pk": 6,
+    "fields": {
+      "medicine": 6,
+      "current_stock": 60,
+      "reorder_level": 10
+    }
+  },
+  {
+    "model": "inventory.inventoryitem",
+    "pk": 7,
+    "fields": {
+      "medicine": 7,
+      "current_stock": 250,
+      "reorder_level": 30
+    }
+  },
+  {
+    "model": "inventory.inventoryitem",
+    "pk": 8,
+    "fields": {
+      "medicine": 8,
+      "current_stock": 45,
+      "reorder_level": 10
+    }
+  },
+{
+    "model": "sales.sale",
+    "pk": 1,
+    "fields": {
+      "customer_name": "Thomas Robert",
+      "total_amount": "25.25",
+      "discount": "0.00",
+      "payment_method": "cash",
+      "date": "2024-01-15T10:30:00Z"
+    }
+  },
+  {
+    "model": "sales.sale",
+    "pk": 2,
+    "fields": {
+      "customer_name": "Julie Moreau",
+      "total_amount": "42.00",
+      "discount": "2.00",
+      "payment_method": "card",
+      "date": "2024-01-16T14:45:00Z"
+    }
+  },
+  {
+    "model": "sales.sale",
+    "pk": 3,
+    "fields": {
+      "customer_name": "Thomas Robert",
+      "total_amount": "18.50",
+      "discount": "0.00",
+      "payment_method": "insurance",
+      "date": "2024-01-17T09:15:00Z"
+    }
+  },
+  {
+    "model": "sales.sale",
+    "pk": 4,
+    "fields": {
+      "customer_name": "Sophie Petit",
+      "total_amount": "56.75",
+      "discount": "5.00",
+      "payment_method": "transfer",
+      "date": "2024-01-18T16:20:00Z"
+    }
+  },
+  {
+    "model": "sales.sale",
+    "pk": 5,
+    "fields": {
+      "customer_name": "Julie Moreau",
+      "total_amount": "31.25",
+      "discount": "1.25",
+      "payment_method": "cash",
+      "date": "2024-01-19T11:00:00Z"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 1,
+    "fields": {
+      "sale": 1,
+      "medicine": 1,
+      "quantity": 2,
+      "price": "8.50"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 2,
+    "fields": {
+      "sale": 1,
+      "medicine": 4,
+      "quantity": 1,
+      "price": "9.25"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 3,
+    "fields": {
+      "sale": 2,
+      "medicine": 3,
+      "quantity": 3,
+      "price": "12.00"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 4,
+    "fields": {
+      "sale": 2,
+      "medicine": 5,
+      "quantity": 1,
+      "price": "7.50"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 5,
+    "fields": {
+      "sale": 3,
+      "medicine": 2,
+      "quantity": 2,
+      "price": "6.75"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 6,
+    "fields": {
+      "sale": 3,
+      "medicine": 7,
+      "quantity": 1,
+      "price": "5.90"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 7,
+    "fields": {
+      "sale": 4,
+      "medicine": 1,
+      "quantity": 3,
+      "price": "8.50"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 8,
+    "fields": {
+      "sale": 4,
+      "medicine": 3,
+      "quantity": 2,
+      "price": "12.00"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 9,
+    "fields": {
+      "sale": 5,
+      "medicine": 6,
+      "quantity": 2,
+      "price": "11.00"
+    }
+  },
+  {
+    "model": "sales.saleitem",
+    "pk": 10,
+    "fields": {
+      "sale": 5,
+      "medicine": 8,
+      "quantity": 1,
+      "price": "14.50"
+    }
+  },
+{
+    "model": "suppliers.purchaseorder",
+    "pk": 1,
+    "fields": {
+      "supplier": 1,
+      "order_date": "2024-01-10T09:00:00Z",
+      "status": "received",
+      "total_amount": "500.00",
+      "expected_delivery": "2024-01-15",
+      "notes": "Commande régulière mensuelle"
+    }
+  },
+  {
+    "model": "suppliers.purchaseorder",
+    "pk": 2,
+    "fields": {
+      "supplier": 2,
+      "order_date": "2024-01-20T10:30:00Z",
+      "status": "pending",
+      "total_amount": "750.50",
+      "expected_delivery": "2024-01-25",
+      "notes": "Complément de stock antibiotiques"
+    }
+  },
+  {
+    "model": "suppliers.purchaseorderitem",
+    "pk": 1,
+    "fields": {
+      "purchase_order": 1,
+      "medicine_name": "Doliprane 1000mg",
+      "quantity": 50,
+      "unit_price": "6.00"
+    }
+  },
+  {
+    "model": "suppliers.purchaseorderitem",
+    "pk": 2,
+    "fields": {
+      "purchase_order": 1,
+      "medicine_name": "Efferalgan 500mg",
+      "quantity": 100,
+      "unit_price": "4.00"
+    }
+  },
+  {
+    "model": "suppliers.purchaseorderitem",
+    "pk": 3,
+    "fields": {
+      "purchase_order": 2,
+      "medicine_name": "Amoxicilline 500mg",
+      "quantity": 40,
+      "unit_price": "9.00"
+    }
+  },
+  {
+    "model": "suppliers.purchaseorderitem",
+    "pk": 4,
+    "fields": {
+      "purchase_order": 2,
+      "medicine_name": "Spasfon",
+      "quantity": 60,
+      "unit_price": "7.00"
+    }
+  }
+]
+

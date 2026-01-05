@@ -1,0 +1,408 @@
+{
+  "info": {
+    "name": "Pharmacy Management System",
+    "version": "1.0.0",
+    "description": "API Collection for Pharmacy Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/users/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "users", ""]
+            },
+            "description": "Register a new user. No authentication required.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"newuser\",\n    \"email\": \"newuser@example.com\",\n    \"password\": \"securepassword123\",\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"role\": \"staff\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login", ""]
+            },
+            "description": "Login and get JWT access token",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/users/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "users", ""]
+            },
+            "description": "Get all users. Requires authentication."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Medicines",
+      "item": [
+        {
+          "name": "List Medicines",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/medicines/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "medicines", ""]
+            },
+            "description": "Get all medicines"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Medicine",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/medicines/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "medicines", ""]
+            },
+            "description": "Create a new medicine",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Paracetamol\",\n    \"description\": \"Pain reliever and fever reducer\",\n    \"category\": \"Pain Relief\",\n    \"price\": 5.99,\n    \"quantity\": 100,\n    \"expiry_date\": \"2026-12-31\",\n    \"manufacturer\": \"PharmaCorp\",\n    \"batch_number\": \"BATCH001\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Expired Medicines",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/medicines/expired/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "medicines", "expired", ""]
+            },
+            "description": "Get all expired medicines"
+          },
+          "response": []
+        },
+        {
+          "name": "Low Stock Medicines",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/medicines/low-stock/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "medicines", "low-stock", ""]
+            },
+            "description": "Get medicines with low stock"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Inventory",
+      "item": [
+        {
+          "name": "List Inventory",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", ""]
+            },
+            "description": "Get all inventory items"
+          },
+          "response": []
+        },
+        {
+          "name": "Low Stock Alerts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/alerts/low-stock/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "alerts", "low-stock", ""]
+            },
+            "description": "Get low stock alerts"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Suppliers",
+      "item": [
+        {
+          "name": "List Suppliers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/suppliers/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "suppliers", ""]
+            },
+            "description": "Get all suppliers"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Supplier",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/suppliers/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "suppliers", ""]
+            },
+            "description": "Create a new supplier",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"PharmaSupply Inc\",\n    \"contact_person\": \"Jane Smith\",\n    \"phone\": \"+1234567890\",\n    \"email\": \"contact@pharmasupply.com\",\n    \"address\": \"123 Pharma Street, Medical City\"\n}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sales",
+      "item": [
+        {
+          "name": "List Sales",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", ""]
+            },
+            "description": "Get all sales"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Sale",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", ""]
+            },
+            "description": "Create a new sale",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"medicine\": 1,\n    \"quantity\": 2,\n    \"customer_name\": \"John Customer\",\n    \"payment_method\": \"cash\",\n    \"discount\": 0\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Daily Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/reports/daily/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", "reports", "daily", ""]
+            },
+            "description": "Get daily sales report"
+          },
+          "response": []
+        },
+        {
+          "name": "Monthly Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/reports/monthly/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", "reports", "monthly", ""]
+            },
+            "description": "Get monthly sales report"
+          },
+          "response": []
+        },
+        {
+          "name": "Expired Medicines Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/reports/expired-medicines/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", "reports", "expired-medicines", ""]
+            },
+            "description": "Get report of expired medicines"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
+

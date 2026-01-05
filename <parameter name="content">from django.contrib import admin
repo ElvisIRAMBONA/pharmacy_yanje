@@ -1,0 +1,11 @@
+from .models import InventoryItem
+
+
+@admin.register(InventoryItem)
+class InventoryItemAdmin(admin.ModelAdmin):
+    list_display = ("medicine", "current_stock", "reorder_level")
+    list_filter = ("reorder_level",)
+    search_fields = ("medicine__name",)
+    ordering = ("medicine__name",)
+</parameter>
+<parameter name="path">/home/elvis-brown/django-projects/pharmacy_system/apps/inventory/admin.py</parameter>
