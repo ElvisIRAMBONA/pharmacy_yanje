@@ -23,7 +23,29 @@ import './App.css';
 function App() {
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : false;
+  });
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('language') || 'en';
+  });
   const [loading, setLoading] = useState(true);
+
+  // Apply dark mode class to body
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
+
+  // Save language preference
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -126,6 +148,10 @@ function App() {
           userRole={userRole}
           onLogout={handleLogout}
           onUserUpdate={handleUserUpdate}
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+          language={language}
+          setLanguage={setLanguage}
         />
         
         <main className="main-content">

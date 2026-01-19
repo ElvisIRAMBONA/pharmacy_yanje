@@ -99,14 +99,16 @@ const MedicinesList = () => {
                     <button 
                       onClick={() => handleEdit(medicine)}
                       className="btn btn-sm btn-secondary"
+                      title="Edit"
                     >
-                      Edit
+                      ✏️
                     </button>
                     <button 
                       onClick={() => handleDelete(medicine.id)}
                       className="btn btn-sm btn-danger"
+                      title="Delete"
                     >
-                      Delete
+                      🗑️
                     </button>
                   </div>
                 </td>

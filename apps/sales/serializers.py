@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from .models import Sale, SaleItem
 from apps.medicines.models import Medicine
+from apps.inventory.models import InventoryItem
+from apps.notifications.models import Notification
+
 
 class SaleItemSerializer(serializers.ModelSerializer):
     medicine_name = serializers.CharField(source='medicine.name', read_only=True)
@@ -32,6 +35,28 @@ class SaleSerializer(serializers.ModelSerializer):
                 quantity=item_data['quantity'],
                 price=item_data['price']
             )
+            
+            # Update medicine quantity
+            medicine.quantity -= item_data['quantity']
+            medicine.save()
+            
+            # Check inventory and create notification if low stock
+            try:
+                inventory = InventoryItem.objects.get(medicine=medicine)
+                new_stock = inventory.current_stock - item_data['quantity']
+                inventory.current_stock = new_stock
+                inventory.save()
+                
+                # Create low stock notification if below reorder level
+                if new_stock <= inventory.reorder_level:
+                    Notification.create_low_stock_notification(inventory, new_stock)
+            except InventoryItem.DoesNotExist:
+                # Create inventory record if it doesn't exist
+                InventoryItem.objects.create(
+                    medicine=medicine,
+                    current_stock=medicine.quantity,
+                    reorder_level=10
+                )
         
         return sale
 

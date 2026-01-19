@@ -275,8 +275,9 @@ const InvoiceManagement = () => {
                             <button 
                               onClick={() => removeItem(item.id)}
                               className="btn btn-sm btn-danger"
+                              title="Remove"
                             >
-                              Remove
+                              🗑️
                             </button>
                           </td>
                         </tr>
@@ -341,8 +342,9 @@ const InvoiceManagement = () => {
                       <button 
                         onClick={() => downloadInvoice(sale.id)}
                         className="btn btn-sm btn-primary"
+                        title="Download Invoice"
                       >
-                        Download
+                        📄
                       </button>
                     </td>
                   </tr>

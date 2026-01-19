@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import api from '../services/api';
+import { languageOptions } from '../utils/translations';
 
-const UserProfile = ({ user, onClose, onUpdate }) => {
+const UserProfile = ({ user, onClose, onUpdate, darkMode, setDarkMode, language, setLanguage }) => {
   const [activeTab, setActiveTab] = useState('profile');
   const [profileData, setProfileData] = useState({
     username: user.username,
@@ -63,6 +64,16 @@ const UserProfile = ({ user, onClose, onUpdate }) => {
     }
   };
 
+  const handleDarkModeToggle = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value);
+  };
+
+  const selectedLanguage = languageOptions.find(opt => opt.code === language);
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal profile-modal" onClick={(e) => e.stopPropagation()}>
@@ -83,6 +94,12 @@ const UserProfile = ({ user, onClose, onUpdate }) => {
             onClick={() => setActiveTab('password')}
           >
             Change Password
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
+            onClick={() => setActiveTab('settings')}
+          >
+            Settings
           </button>
         </div>
 
@@ -179,9 +196,75 @@ const UserProfile = ({ user, onClose, onUpdate }) => {
             </div>
           </form>
         )}
+
+        {activeTab === 'settings' && (
+          <div className="settings-form">
+            {/* Dark Mode Toggle */}
+            <div className="settings-section">
+              <div className="settings-info">
+                <h4>Dark Mode</h4>
+                <p>Switch between light and dark themes</p>
+              </div>
+              <div className="settings-control">
+                <label className="toggle-switch">
+                  <input 
+                    type="checkbox" 
+                    checked={darkMode} 
+                    onChange={handleDarkModeToggle}
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
+                <span className="setting-value">
+                  {darkMode ? '🌙 Dark' : '☀️ Light'}
+                </span>
+              </div>
+            </div>
+
+            {/* Language Selector */}
+            <div className="settings-section">
+              <div className="settings-info">
+                <h4>Language</h4>
+                <p>Select your preferred language</p>
+              </div>
+              <div className="settings-control">
+                <select 
+                  value={language} 
+                  onChange={handleLanguageChange}
+                  className="language-select"
+                >
+                  {languageOptions.map(option => (
+                    <option key={option.code} value={option.code}>
+                      {option.flag} {option.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Theme Preview */}
+            <div className="theme-preview">
+              <h4>Theme Preview</h4>
+              <div className={`preview-card ${darkMode ? 'dark' : 'light'}`}>
+                <div className="preview-navbar"></div>
+                <div className="preview-content">
+                  <div className="preview-line"></div>
+                  <div className="preview-line short"></div>
+                  <div className="preview-line"></div>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <button type="button" onClick={onClose} className="btn btn-primary">
+                Done
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default UserProfile;
+
