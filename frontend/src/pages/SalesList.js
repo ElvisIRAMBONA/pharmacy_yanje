@@ -106,8 +106,9 @@ const SalesList = () => {
                   <button 
                     onClick={() => downloadInvoice(sale.id)}
                     className="btn btn-primary"
+                    title="Download Invoice"
                   >
-                    Invoice
+                    📄
                   </button>
                 </td>
               </tr>

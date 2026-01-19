@@ -105,14 +105,16 @@ const ManagePharmacist = () => {
                     <button 
                       onClick={() => handleEdit(pharmacist)}
                       className="btn btn-sm btn-secondary"
+                      title="Edit"
                     >
-                      Edit
+                      ✏️
                     </button>
                     <button 
                       onClick={() => handleDelete(pharmacist.id)}
                       className="btn btn-sm btn-danger"
+                      title="Delete"
                     >
-                      Delete
+                      🗑️
                     </button>
                   </div>
                 </td>

@@ -94,14 +94,16 @@ const ManageCompany = () => {
                     <button 
                       onClick={() => handleEdit(supplier)}
                       className="btn btn-sm btn-secondary"
+                      title="Edit"
                     >
-                      Edit
+                      ✏️
                     </button>
                     <button 
                       onClick={() => handleDelete(supplier.id)}
                       className="btn btn-sm btn-danger"
+                      title="Delete"
                     >
-                      Delete
+                      🗑️
                     </button>
                   </div>
                 </td>

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "apps.suppliers",
     "apps.sales",
     "apps.medicines",
+    "apps.notifications",
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

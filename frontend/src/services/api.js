@@ -102,4 +102,13 @@ export const suppliersAPI = {
   update: (id, data) => api.put(`/suppliers/${id}/`, data),
 };
 
+export const notificationsAPI = {
+  getAll: () => api.get('/notifications/'),
+  getUnreadCount: () => api.get('/notifications/unread/'),
+  getRecent: () => api.get('/notifications/recent/'),
+  markAsRead: (id) => api.post(`/notifications/${id}/mark_read/`),
+  markAllAsRead: () => api.post('/notifications/mark_all_read/'),
+  clearRead: () => api.delete('/notifications/clear_read/'),
+};
+
 export default api;

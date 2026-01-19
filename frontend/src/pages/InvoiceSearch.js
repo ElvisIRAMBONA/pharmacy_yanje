@@ -148,8 +148,9 @@ const InvoiceSearch = () => {
                     <button 
                       onClick={() => downloadInvoice(sale.id)}
                       className="btn btn-sm btn-primary"
+                      title="Download Invoice"
                     >
-                      Download
+                      📄
                     </button>
                   </td>
                 </tr>

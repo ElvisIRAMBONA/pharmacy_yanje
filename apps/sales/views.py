@@ -7,8 +7,30 @@ from apps.users.permissions import IsAdminOrPharmacist
 from .models import Sale, SaleItem
 from .serializers import SaleSerializer, SaleItemSerializer
 from apps.medicines.models import Medicine
+from apps.inventory.models import InventoryItem
+from apps.notifications.models import Notification
 from django.utils import timezone
 from datetime import timedelta
+
+
+def check_and_notify_low_stock(medicine, quantity_sold):
+    """Check if stock is low after a sale and create notification"""
+    try:
+        inventory = InventoryItem.objects.get(medicine=medicine)
+        new_stock = inventory.current_stock - quantity_sold
+        
+        if new_stock <= inventory.reorder_level:
+            # Create low stock notification
+            Notification.create_low_stock_notification(inventory, new_stock)
+    except InventoryItem.DoesNotExist:
+        # If no inventory record exists, create one with default reorder level
+        inventory = InventoryItem.objects.create(
+            medicine=medicine,
+            current_stock=medicine.quantity - quantity_sold,
+            reorder_level=10
+        )
+        if inventory.current_stock <= inventory.reorder_level:
+            Notification.create_low_stock_notification(inventory, inventory.current_stock)
 
 
 class SaleListCreateAPIView(APIView):
