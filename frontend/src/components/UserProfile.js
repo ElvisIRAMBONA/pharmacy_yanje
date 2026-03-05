@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import api from '../services/api';
+import { useTranslation } from '../utils/TranslationContext';
 import { languageOptions } from '../utils/translations';
 
-const UserProfile = ({ user, onClose, onUpdate, darkMode, setDarkMode, language, setLanguage }) => {
+const UserProfile = ({ user, onClose, onUpdate, darkMode, setDarkMode, language, setLanguage, onLogout }) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('profile');
   const [profileData, setProfileData] = useState({
     username: user.username,
@@ -72,13 +74,18 @@ const UserProfile = ({ user, onClose, onUpdate, darkMode, setDarkMode, language,
     setLanguage(e.target.value);
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    onLogout();
+  };
+
   const selectedLanguage = languageOptions.find(opt => opt.code === language);
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal profile-modal" onClick={(e) => e.stopPropagation()}>
         <div className="profile-header">
-          <h3>User Settings</h3>
+          <h3>{t('userSettings')}</h3>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
@@ -87,180 +94,194 @@ const UserProfile = ({ user, onClose, onUpdate, darkMode, setDarkMode, language,
             className={`tab-btn ${activeTab === 'profile' ? 'active' : ''}`}
             onClick={() => setActiveTab('profile')}
           >
-            Profile
+            {t('profile')}
           </button>
           <button 
             className={`tab-btn ${activeTab === 'password' ? 'active' : ''}`}
             onClick={() => setActiveTab('password')}
           >
-            Change Password
+            {t('changePassword')}
           </button>
           <button 
             className={`tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
             onClick={() => setActiveTab('settings')}
           >
-            Settings
+            {t('settings')}
           </button>
         </div>
 
         {message && <div className="success-message">{message}</div>}
         {error && <div className="error-message">{error}</div>}
 
-        {activeTab === 'profile' && (
-          <form onSubmit={handleProfileUpdate} className="profile-form">
-            <div className="form-group">
-              <label>Username</label>
-              <input
-                type="text"
-                value={profileData.username}
-                onChange={(e) => setProfileData({...profileData, username: e.target.value})}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                value={profileData.email}
-                onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                required
-              />
-            </div>
-            <div className="form-row">
+        <div className="profile-content">
+          {activeTab === 'profile' && (
+            <form onSubmit={handleProfileUpdate} className="profile-form">
               <div className="form-group">
-                <label>First Name</label>
+                <label>Username</label>
                 <input
                   type="text"
-                  value={profileData.first_name}
-                  onChange={(e) => setProfileData({...profileData, first_name: e.target.value})}
+                  value={profileData.username}
+                  onChange={(e) => setProfileData({...profileData, username: e.target.value})}
+                  required
                 />
               </div>
               <div className="form-group">
-                <label>Last Name</label>
+                <label>Email</label>
                 <input
-                  type="text"
-                  value={profileData.last_name}
-                  onChange={(e) => setProfileData({...profileData, last_name: e.target.value})}
+                  type="email"
+                  value={profileData.email}
+                  onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                  required
                 />
               </div>
-            </div>
-            <div className="form-actions">
-              <button type="button" onClick={onClose} className="btn btn-secondary">
-                Cancel
-              </button>
-              <button type="submit" disabled={loading} className="btn btn-primary">
-                {loading ? 'Updating...' : 'Update Profile'}
-              </button>
-            </div>
-          </form>
-        )}
-
-        {activeTab === 'password' && (
-          <form onSubmit={handlePasswordChange} className="profile-form">
-            <div className="form-group">
-              <label>Current Password</label>
-              <input
-                type="password"
-                value={passwordData.current_password}
-                onChange={(e) => setPasswordData({...passwordData, current_password: e.target.value})}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>New Password</label>
-              <input
-                type="password"
-                value={passwordData.new_password}
-                onChange={(e) => setPasswordData({...passwordData, new_password: e.target.value})}
-                required
-                minLength="8"
-              />
-            </div>
-            <div className="form-group">
-              <label>Confirm New Password</label>
-              <input
-                type="password"
-                value={passwordData.confirm_password}
-                onChange={(e) => setPasswordData({...passwordData, confirm_password: e.target.value})}
-                required
-                minLength="8"
-              />
-            </div>
-            <div className="form-actions">
-              <button type="button" onClick={onClose} className="btn btn-secondary">
-                Cancel
-              </button>
-              <button type="submit" disabled={loading} className="btn btn-primary">
-                {loading ? 'Changing...' : 'Change Password'}
-              </button>
-            </div>
-          </form>
-        )}
-
-        {activeTab === 'settings' && (
-          <div className="settings-form">
-            {/* Dark Mode Toggle */}
-            <div className="settings-section">
-              <div className="settings-info">
-                <h4>Dark Mode</h4>
-                <p>Switch between light and dark themes</p>
-              </div>
-              <div className="settings-control">
-                <label className="toggle-switch">
-                  <input 
-                    type="checkbox" 
-                    checked={darkMode} 
-                    onChange={handleDarkModeToggle}
+              <div className="form-row">
+                <div className="form-group">
+                  <label>First Name</label>
+                  <input
+                    type="text"
+                    value={profileData.first_name}
+                    onChange={(e) => setProfileData({...profileData, first_name: e.target.value})}
                   />
-                  <span className="toggle-slider"></span>
-                </label>
-                <span className="setting-value">
-                  {darkMode ? '🌙 Dark' : '☀️ Light'}
-                </span>
-              </div>
-            </div>
-
-            {/* Language Selector */}
-            <div className="settings-section">
-              <div className="settings-info">
-                <h4>Language</h4>
-                <p>Select your preferred language</p>
-              </div>
-              <div className="settings-control">
-                <select 
-                  value={language} 
-                  onChange={handleLanguageChange}
-                  className="language-select"
-                >
-                  {languageOptions.map(option => (
-                    <option key={option.code} value={option.code}>
-                      {option.flag} {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Theme Preview */}
-            <div className="theme-preview">
-              <h4>Theme Preview</h4>
-              <div className={`preview-card ${darkMode ? 'dark' : 'light'}`}>
-                <div className="preview-navbar"></div>
-                <div className="preview-content">
-                  <div className="preview-line"></div>
-                  <div className="preview-line short"></div>
-                  <div className="preview-line"></div>
+                </div>
+                <div className="form-group">
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    value={profileData.last_name}
+                    onChange={(e) => setProfileData({...profileData, last_name: e.target.value})}
+                  />
                 </div>
               </div>
-            </div>
+              <div className="form-actions">
+                <button type="button" onClick={onClose} className="btn btn-secondary">
+                  Cancel
+                </button>
+                <button type="submit" disabled={loading} className="btn btn-primary">
+                  {loading ? 'Updating...' : 'Update Profile'}
+                </button>
+              </div>
+            </form>
+          )}
 
-            <div className="form-actions">
-              <button type="button" onClick={onClose} className="btn btn-primary">
-                Done
-              </button>
+          {activeTab === 'password' && (
+            <form onSubmit={handlePasswordChange} className="profile-form">
+              <div className="form-group">
+                <label>Current Password</label>
+                <input
+                  type="password"
+                  value={passwordData.current_password}
+                  onChange={(e) => setPasswordData({...passwordData, current_password: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>New Password</label>
+                <input
+                  type="password"
+                  value={passwordData.new_password}
+                  onChange={(e) => setPasswordData({...passwordData, new_password: e.target.value})}
+                  required
+                  minLength="8"
+                />
+              </div>
+              <div className="form-group">
+                <label>Confirm New Password</label>
+                <input
+                  type="password"
+                  value={passwordData.confirm_password}
+                  onChange={(e) => setPasswordData({...passwordData, confirm_password: e.target.value})}
+                  required
+                  minLength="8"
+                />
+              </div>
+              <div className="form-actions">
+                <button type="button" onClick={onClose} className="btn btn-secondary">
+                  Cancel
+                </button>
+                <button type="submit" disabled={loading} className="btn btn-primary">
+                  {loading ? 'Changing...' : 'Change Password'}
+                </button>
+              </div>
+            </form>
+          )}
+
+          {activeTab === 'settings' && (
+            <div className="settings-form">
+              {/* Dark Mode Toggle */}
+              <div className="settings-section">
+                <div className="settings-info">
+                  <h4>{t('darkMode')}</h4>
+                  <p>{t('darkModeDesc')}</p>
+                </div>
+                <div className="settings-control">
+                  <label className="toggle-switch">
+                    <input 
+                      type="checkbox" 
+                      checked={darkMode} 
+                      onChange={handleDarkModeToggle}
+                    />
+                    <span className="toggle-slider"></span>
+                  </label>
+                  <span className="setting-value">
+                    {darkMode ? '🌙 Dark' : '☀️ Light'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Language Selector */}
+              <div className="settings-section">
+                <div className="settings-info">
+                  <h4>{t('language')}</h4>
+                  <p>{t('languageDesc')}</p>
+                </div>
+                <div className="settings-control">
+                  <select 
+                    value={language} 
+                    onChange={handleLanguageChange}
+                    className="language-select"
+                  >
+                    {languageOptions.map(option => (
+                      <option key={option.code} value={option.code}>
+                        {option.flag} {option.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Theme Preview */}
+              <div className="theme-preview">
+                <h4>{t('themePreview')}</h4>
+                <div className={`preview-card ${darkMode ? 'dark' : 'light'}`}>
+                  <div className="preview-navbar"></div>
+                  <div className="preview-content">
+                    <div className="preview-line"></div>
+                    <div className="preview-line short"></div>
+                    <div className="preview-line"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="settings-section logout-section">
+                <div className="settings-info">
+                  <h4>{t('logout')}</h4>
+                  <p>{t('logoutDesc')}</p>
+                </div>
+                <div className="settings-control">
+                  <button onClick={handleLogout} className="btn btn-danger">
+                    {t('logout')}
+                  </button>
+                </div>
+              </div>
+
+              <div className="form-actions">
+                <button type="button" onClick={onClose} className="btn btn-primary">
+                  Done
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

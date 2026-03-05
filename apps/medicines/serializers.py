@@ -8,17 +8,29 @@ class MedicineSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Medicine
-        fields = '__all__'
+        fields = [
+            "id",
+            "name",
+            "category",
+            "price",
+            "quantity",
+            "batch_number",
+            "expiration_date",
+            "supplier",
+            "is_expired",
+            "is_low_stock",
+        ]
     
+      
     def create(self, validated_data):
-        # Create the medicine
+        quantity = validated_data.get("quantity", 0)
+
         medicine = Medicine.objects.create(**validated_data)
-        
-        # Create corresponding inventory item
+
         InventoryItem.objects.create(
-            medicine=medicine,
-            current_stock=medicine.quantity,
-            reorder_level=10  # Default reorder level
-        )
-        
+          medicine=medicine,
+          current_stock=quantity,
+          reorder_level=10
+       )
+
         return medicine

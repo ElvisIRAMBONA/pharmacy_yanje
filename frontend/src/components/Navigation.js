@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../utils/TranslationContext';
 import UserProfile from './UserProfile';
 import { notificationsAPI } from '../services/api';
 
 const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode, setDarkMode, language, setLanguage }) => {
+  const { t } = useTranslation();
   const [openDropdown, setOpenDropdown] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
-  const navRef = useRef(null);
-  const dropdownRefs = useRef({});
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const sidebarRef = useRef(null);
   const notificationRef = useRef(null);
 
   // Fetch notifications
@@ -31,26 +32,12 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
 
   useEffect(() => {
     fetchNotifications();
-    // Poll for new notifications every 30 seconds
     const interval = setInterval(fetchNotifications, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  const handleDropdownToggle = (index, event) => {
-    event.stopPropagation();
-    if (openDropdown === index) {
-      setOpenDropdown(null);
-    } else {
-      const button = dropdownRefs.current[index];
-      if (button) {
-        const rect = button.getBoundingClientRect();
-        setDropdownPosition({
-          top: rect.bottom + 8,
-          left: rect.left
-        });
-      }
-      setOpenDropdown(index);
-    }
+  const handleDropdownToggle = (index) => {
+    setOpenDropdown(openDropdown === index ? null : index);
   };
 
   const handleNotificationClick = async () => {
@@ -95,8 +82,7 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
-        setOpenDropdown(null);
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
         setShowUserMenu(false);
         setShowNotifications(false);
       }
@@ -108,42 +94,53 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
 
   return (
     <>
-      <nav className="navbar" ref={navRef}>
-        <div className="navbar-brand">
-          <h1>🏥 Pharmacy Yanje</h1>
+      <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`} ref={sidebarRef}>
+        {/* Sidebar Header */}
+        <div className="sidebar-header">
+          <div className="sidebar-brand">
+            <span className="brand-icon">🏥</span>
+            {!sidebarCollapsed && <span className="brand-text">Pharmacy Yanje</span>}
+          </div>
+          <button 
+            className="sidebar-toggle"
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {sidebarCollapsed ? '▶' : '◀'}
+          </button>
         </div>
 
-        <div className="nav-scroll-container">
+        {/* Navigation Links */}
+        <nav className="sidebar-nav">
           <ul className="nav-links">
             {navLinks.map((link, index) => (
-              <li key={index} className={`dropdown ${link.dropdown ? 'has-dropdown' : ''}`}>
+              <li key={index} className={`nav-item ${link.dropdown ? 'has-dropdown' : ''}`}>
                 {link.dropdown ? (
                   <>
                     <button 
-                      className="dropdown-toggle"
-                      ref={(el) => (dropdownRefs.current[index] = el)}
-                      onClick={(e) => handleDropdownToggle(index, e)}
-                      type="button"
+                      className={`nav-link dropdown-toggle ${openDropdown === index ? 'active' : ''}`}
+                      onClick={() => handleDropdownToggle(index)}
+                      title={sidebarCollapsed ? link.label : ''}
                     >
-                      {link.label} <span className="dropdown-arrow">▼</span>
+                      <span className="nav-icon">{getNavIcon(link.label)}</span>
+                      {!sidebarCollapsed && (
+                        <>
+                          <span className="nav-text">{link.label}</span>
+                          <span className={`dropdown-arrow ${openDropdown === index ? 'open' : ''}`}>▼</span>
+                        </>
+                      )}
                     </button>
                     {openDropdown === index && (
-                      <ul 
-                        className="dropdown-menu show"
-                        style={{
-                          position: 'fixed',
-                          top: dropdownPosition.top,
-                          left: dropdownPosition.left,
-                          minWidth: '200px'
-                        }}
-                      >
+                      <ul className="dropdown-menu">
                         {link.dropdown.map((subLink, subIndex) => (
                           <li key={subIndex}>
                             <Link 
                               to={subLink.path}
+                              className="dropdown-link"
                               onClick={() => setOpenDropdown(null)}
                             >
-                              {subLink.label}
+                              <span className="dropdown-icon">{getNavIcon(subLink.label)}</span>
+                              {!sidebarCollapsed && <span>{subLink.label}</span>}
                             </Link>
                           </li>
                         ))}
@@ -151,14 +148,22 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
                     )}
                   </>
                 ) : (
-                  <Link to={link.path}>{link.label}</Link>
+                  <Link 
+                    to={link.path} 
+                    className="nav-link"
+                    title={sidebarCollapsed ? link.label : ''}
+                  >
+                    <span className="nav-icon">{getNavIcon(link.label)}</span>
+                    {!sidebarCollapsed && <span className="nav-text">{link.label}</span>}
+                  </Link>
                 )}
               </li>
             ))}
           </ul>
-        </div>
+        </nav>
 
-        <div className="user-section">
+        {/* Sidebar Footer */}
+        <div className="sidebar-footer">
           {/* Notification Bell */}
           <div className="notification-container" ref={notificationRef}>
             <button 
@@ -210,70 +215,8 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
               </div>
             )}
           </div>
-
-          <div className="user-info">
-            <span className={`role-badge ${userRole}`}>
-              {userRole === 'admin' ? '👨‍💼' : '👨‍⚕️'} {userRole.toUpperCase()}
-            </span>
-          </div>
-          
-          <div className="user-menu">
-            <button 
-              className="user-menu-btn"
-              onClick={() => setShowUserMenu(!showUserMenu)}
-            >
-              <div className="user-avatar">
-                {user.first_name ? user.first_name.charAt(0).toUpperCase() : user.username.charAt(0).toUpperCase()}
-              </div>
-              <div className="user-details">
-                <span className="user-name">
-                  {user.first_name && user.last_name 
-                    ? `${user.first_name} ${user.last_name}` 
-                    : user.username}
-                </span>
-                <span className="user-email">{user.email}</span>
-              </div>
-              <span className="dropdown-arrow">▼</span>
-            </button>
-            
-            {showUserMenu && (
-              <div className="user-dropdown show">
-                <button 
-                  className="dropdown-item"
-                  onClick={() => {
-                    setShowProfile(true);
-                    setShowUserMenu(false);
-                  }}
-                >
-                  <span className="item-icon">⚙️</span>
-                  Settings
-                </button>
-                <button 
-                  className="dropdown-item"
-                  onClick={() => {
-                    setShowProfile(true);
-                    setShowUserMenu(false);
-                  }}
-                >
-                  <span className="item-icon">👤</span>
-                  Profile
-                </button>
-                <div className="dropdown-divider"></div>
-                <button 
-                  className="dropdown-item logout-item"
-                  onClick={() => {
-                    onLogout();
-                    setShowUserMenu(false);
-                  }}
-                >
-                  <span className="item-icon">🚪</span>
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
         </div>
-      </nav>
+      </div>
 
       {showProfile && (
         <UserProfile 
@@ -288,6 +231,34 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
       )}
     </>
   );
+};
+
+// Helper function to get icons for navigation items
+const getNavIcon = (label) => {
+  const iconMap = {
+    'Dashboard': '📊',
+    'Invoice Search': '🔍',
+    'Medicine Inventory': '💊',
+    'Inventory': '📦',
+    'Pharmacy Company': '🏢',
+    'Add Company': '➕',
+    'Manage Company': '🏢',
+    'Medicine': '💊',
+    'Add Medicine': '➕',
+    'Manage Medicine': '💊',
+    'Pharmacist': '👨⚕️',
+    'Add Pharmacist': '➕',
+    'Manage Pharmacist': '👨⚕️',
+    'Reports': '📈',
+    'Stock Reports': '📊',
+    'Pharmacist Reports': '👨⚕️',
+    'Sales Reports': '💰',
+    'Invoice': '🧾',
+    'Invoice Management': '🧾',
+    'History': '📜',
+    'Sales': '💰'
+  };
+  return iconMap[label] || '📄';
 };
 
 export default Navigation;
