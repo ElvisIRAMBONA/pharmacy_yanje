@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { TranslationProvider } from './utils/TranslationContext';
 import MedicinesList from './pages/MedicinesList';
 import SalesList from './pages/SalesList';
 import InventoryList from './pages/InventoryList';
@@ -18,11 +19,13 @@ import PharmacistReports from './pages/PharmacistReports';
 import History from './pages/History';
 import AuthPage from './components/AuthPage';
 import Navigation from './components/Navigation';
+import UserProfile from './components/UserProfile';
 import './App.css';
 
 function App() {
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
@@ -140,22 +143,55 @@ function App() {
   }
 
   return (
-    <Router>
-      <div className="App">
-        <Navigation 
-          navLinks={navLinks}
-          user={user}
-          userRole={userRole}
-          onLogout={handleLogout}
-          onUserUpdate={handleUserUpdate}
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
-          language={language}
-          setLanguage={setLanguage}
-        />
-        
-        <main className="main-content">
-          <Routes>
+    <TranslationProvider language={language}>
+      <Router>
+        <div className="App">
+          <Navigation 
+            navLinks={navLinks}
+            user={user}
+            userRole={userRole}
+            onLogout={handleLogout}
+            onUserUpdate={handleUserUpdate}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+            language={language}
+            setLanguage={setLanguage}
+          />
+          
+          <div className="top-header">
+            <div className="header-content">
+              <div className="header-title">
+                <h1>Pharmacy Management System</h1>
+              </div>
+              <div className="header-user-section">
+                <div className="user-info">
+                  <span className="user-name">
+                    {user.first_name && user.last_name 
+                      ? `${user.first_name} ${user.last_name}` 
+                      : user.username}
+                  </span>
+                  <span className={`role-badge ${userRole}`}>
+                    {userRole === 'admin' ? '👨💼' : '👨⚕️'} {userRole.toUpperCase()}
+                  </span>
+                </div>
+                <div className="user-profile-menu">
+                  <button 
+                    className="user-profile-btn"
+                    onClick={() => setShowProfile(true)}
+                    title="User Settings"
+                  >
+                    <div className="user-avatar">
+                      {user.first_name ? user.first_name.charAt(0).toUpperCase() : user.username.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="settings-icon">⚙️</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <main className="main-content with-sidebar with-header">
+            <Routes>
             {/* Role-based dashboard redirects */}
             <Route 
               path="/" 
@@ -203,8 +239,21 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
-      </div>
-    </Router>
+        
+        {showProfile && (
+          <UserProfile 
+            user={user}
+            onClose={() => setShowProfile(false)}
+            onUpdate={handleUserUpdate}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+            language={language}
+            setLanguage={setLanguage}
+          />
+        )}
+        </div>
+      </Router>
+    </TranslationProvider>
   );
 }
 

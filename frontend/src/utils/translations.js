@@ -59,6 +59,7 @@ export const translations = {
     language: 'Language',
     languageDesc: 'Select your preferred language',
     themePreview: 'Theme Preview',
+    logoutDesc: 'Sign out of your account',
     
     // Login/Auth
     login: 'Login',
@@ -151,6 +152,7 @@ export const translations = {
     language: 'Idioma',
     languageDesc: 'Seleccione su idioma preferido',
     themePreview: 'Vista Previa del Tema',
+    logoutDesc: 'Cerrar sesión de su cuenta',
     
     // Login/Auth
     login: 'Iniciar Sesión',
@@ -243,6 +245,7 @@ export const translations = {
     language: 'Langue',
     languageDesc: 'Sélectionnez votre langue préférée',
     themePreview: 'Aperçu du Thème',
+    logoutDesc: 'Se déconnecter de votre compte',
     
     // Login/Auth
     login: 'Connexion',
@@ -335,6 +338,7 @@ export const translations = {
     language: 'Sprache',
     languageDesc: 'Wählen Sie Ihre bevorzugte Sprache',
     themePreview: 'Designvorschau',
+    logoutDesc: 'Von Ihrem Konto abmelden',
     
     // Login/Auth
     login: 'Anmelden',
