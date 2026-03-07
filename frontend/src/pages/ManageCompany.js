@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { suppliersAPI } from '../services/api';
 import BackButton from '../components/BackButton';
+import { FaBuilding, FaEdit, FaTrash, FaPhone, FaEnvelope, FaMapMarkerAlt, FaCalendarAlt } from 'react-icons/fa';
 
 const ManageCompany = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -66,7 +67,10 @@ const ManageCompany = () => {
     <div className="manage-company">
       <div className="page-header">
         <BackButton />
-        <h2>Manage Supplier Companies</h2>
+        <div>
+          <h2><FaBuilding /> Manage Supplier Companies</h2>
+          <p>View and manage supplier information</p>
+        </div>
       </div>
 
       <div className="table-container">
@@ -84,7 +88,7 @@ const ManageCompany = () => {
           <tbody>
             {suppliers.map(supplier => (
               <tr key={supplier.id}>
-                <td>{supplier.name}</td>
+                <td><strong>{supplier.name}</strong></td>
                 <td>{supplier.contact_info}</td>
                 <td>{supplier.email || 'N/A'}</td>
                 <td>{supplier.address || 'N/A'}</td>
@@ -96,14 +100,14 @@ const ManageCompany = () => {
                       className="btn btn-sm btn-secondary"
                       title="Edit"
                     >
-                      ✏️
+                      <FaEdit /> Edit
                     </button>
                     <button 
                       onClick={() => handleDelete(supplier.id)}
                       className="btn btn-sm btn-danger"
                       title="Delete"
                     >
-                      🗑️
+                      <FaTrash /> Delete
                     </button>
                   </div>
                 </td>
@@ -116,11 +120,11 @@ const ManageCompany = () => {
       {showEditForm && (
         <div className="modal-overlay">
           <div className="modal">
-            <h3>Edit Supplier Company</h3>
+            <h3><FaEdit /> Edit Supplier Company</h3>
             
             <form onSubmit={handleEditSubmit}>
               <div className="form-group">
-                <label>Company Name *</label>
+                <label><FaBuilding /> Company Name *</label>
                 <input
                   type="text"
                   name="name"
@@ -131,7 +135,7 @@ const ManageCompany = () => {
               </div>
               
               <div className="form-group">
-                <label>Contact Information *</label>
+                <label><FaPhone /> Contact Information *</label>
                 <input
                   type="text"
                   name="contact_info"
@@ -142,7 +146,7 @@ const ManageCompany = () => {
               </div>
               
               <div className="form-group">
-                <label>Email</label>
+                <label><FaEnvelope /> Email</label>
                 <input
                   type="email"
                   name="email"
@@ -152,7 +156,7 @@ const ManageCompany = () => {
               </div>
               
               <div className="form-group">
-                <label>Address</label>
+                <label><FaMapMarkerAlt /> Address</label>
                 <textarea
                   name="address"
                   value={editingSupplier.address || ''}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { inventoryAPI, medicinesAPI } from '../services/api';
 import BackButton from '../components/BackButton';
+import { FaBox, FaExclamationTriangle, FaBan, FaDollarSign, FaChartBar, FaFilter } from 'react-icons/fa';
 
 const StockReports = () => {
   const [inventory, setInventory] = useState([]);
@@ -64,7 +65,7 @@ const StockReports = () => {
       {/* Stock Overview Cards */}
       <div className="stock-overview">
         <div className="stock-card total">
-          <div className="stock-icon">📦</div>
+          <div className="stock-icon"><FaBox /></div>
           <div className="stock-info">
             <h3>Total Items</h3>
             <p className="stock-value">{inventory.length}</p>
@@ -73,7 +74,7 @@ const StockReports = () => {
         </div>
 
         <div className="stock-card low-stock">
-          <div className="stock-icon">⚠️</div>
+          <div className="stock-icon"><FaExclamationTriangle /></div>
           <div className="stock-info">
             <h3>Low Stock</h3>
             <p className="stock-value">{lowStockCount}</p>
@@ -82,7 +83,7 @@ const StockReports = () => {
         </div>
 
         <div className="stock-card expired">
-          <div className="stock-icon">🚫</div>
+          <div className="stock-icon"><FaBan /></div>
           <div className="stock-info">
             <h3>Expired</h3>
             <p className="stock-value">{expiredCount}</p>
@@ -91,10 +92,10 @@ const StockReports = () => {
         </div>
 
         <div className="stock-card value">
-          <div className="stock-icon">💰</div>
+          <div className="stock-icon"><FaDollarSign /></div>
           <div className="stock-info">
             <h3>Total Value</h3>
-            <p className="stock-value">${totalValue.toFixed(2)}</p>
+            <p className="stock-value">{totalValue.toFixed(2)} Fbu</p>
             <p className="stock-label">inventory worth</p>
           </div>
         </div>
@@ -102,7 +103,7 @@ const StockReports = () => {
 
       {/* Stock Level Visualization */}
       <div className="stock-visualization">
-        <h3>Stock Level Distribution</h3>
+        <h3><FaChartBar /> Stock Level Distribution</h3>
         <div className="stock-bars">
           {inventory.slice(0, 10).map(item => {
             const percentage = item.reorder_level > 0 ? (item.current_stock / (item.reorder_level * 2)) * 100 : 50;
@@ -129,7 +130,7 @@ const StockReports = () => {
 
       {/* Filter Controls */}
       <div className="stock-filters">
-        <h3>Stock Analysis</h3>
+        <h3><FaFilter /> Stock Analysis</h3>
         <div className="filter-buttons">
           <button 
             className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
@@ -180,8 +181,8 @@ const StockReports = () => {
                     <td>{medicine?.category || 'N/A'}</td>
                     <td>{item.current_stock}</td>
                     <td>{item.reorder_level}</td>
-                    <td>${medicine?.price || '0.00'}</td>
-                    <td>${totalValue.toFixed(2)}</td>
+                    <td>{medicine?.price || '0.00'} Fbu</td>
+                    <td>{totalValue.toFixed(2)} Fbu</td>
                     <td>
                       <span className={`status ${isLowStock ? 'low-stock' : 'normal'}`}>
                         {isLowStock ? 'Low Stock' : 'Normal'}
@@ -203,7 +204,7 @@ const StockReports = () => {
       {lowStockCount > 0 && (
         <div className="stock-alerts">
           <div className="alert alert-warning">
-            <h4>⚠️ Low Stock Alert</h4>
+            <h4><FaExclamationTriangle /> Low Stock Alert</h4>
             <p>{lowStockCount} items are running low and need to be reordered soon.</p>
           </div>
         </div>
@@ -212,7 +213,7 @@ const StockReports = () => {
       {expiredCount > 0 && (
         <div className="stock-alerts">
           <div className="alert alert-danger">
-            <h4>🚫 Expired Items Alert</h4>
+            <h4><FaBan /> Expired Items Alert</h4>
             <p>{expiredCount} medicines have expired and should be removed from inventory.</p>
           </div>
         </div>

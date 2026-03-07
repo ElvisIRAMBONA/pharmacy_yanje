@@ -4,7 +4,8 @@ from .models import Supplier, PurchaseOrder, PurchaseOrderItem
 class SupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier
-        fields = '__all__'
+        fields = ['id', 'name', 'contact_info', 'address', 'email', 'phone', 'is_active', 'created_at']
+        read_only_fields = ['id', 'created_at']
 
 class PurchaseOrderItemSerializer(serializers.ModelSerializer):
     subtotal = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)

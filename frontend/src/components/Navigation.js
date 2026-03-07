@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from '../utils/TranslationContext';
 import UserProfile from './UserProfile';
 import { notificationsAPI } from '../services/api';
+import { 
+  FaHome, FaSearch, FaPills, FaBox, FaBuilding, FaPlus, FaUserMd, 
+  FaChartBar, FaFileInvoice, FaHistory, FaMoneyBillWave, FaBell,
+  FaChevronLeft, FaChevronRight, FaChevronDown
+} from 'react-icons/fa';
+import { MdDashboard, MdInventory, MdBusiness } from 'react-icons/md';
 
 const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode, setDarkMode, language, setLanguage }) => {
   const { t } = useTranslation();
@@ -82,9 +88,11 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
         setShowUserMenu(false);
-        setShowNotifications(false);
       }
     };
 
@@ -98,7 +106,7 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
         {/* Sidebar Header */}
         <div className="sidebar-header">
           <div className="sidebar-brand">
-            <span className="brand-icon">🏥</span>
+            <span className="brand-icon"><FaPills /></span>
             {!sidebarCollapsed && <span className="brand-text">Pharmacy Yanje</span>}
           </div>
           <button 
@@ -106,7 +114,7 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
-            {sidebarCollapsed ? '▶' : '◀'}
+            {sidebarCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
           </button>
         </div>
 
@@ -126,7 +134,7 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
                       {!sidebarCollapsed && (
                         <>
                           <span className="nav-text">{link.label}</span>
-                          <span className={`dropdown-arrow ${openDropdown === index ? 'open' : ''}`}>▼</span>
+                          <span className={`dropdown-arrow ${openDropdown === index ? 'open' : ''}`}><FaChevronDown /></span>
                         </>
                       )}
                     </button>
@@ -171,7 +179,7 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
               onClick={handleNotificationClick}
               title="Notifications"
             >
-              <span className="notification-icon">🔔</span>
+              <span className="notification-icon"><FaBell /></span>
               {unreadCount > 0 && (
                 <span className="notification-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
               )}
@@ -236,29 +244,29 @@ const Navigation = ({ navLinks, user, userRole, onLogout, onUserUpdate, darkMode
 // Helper function to get icons for navigation items
 const getNavIcon = (label) => {
   const iconMap = {
-    'Dashboard': '📊',
-    'Invoice Search': '🔍',
-    'Medicine Inventory': '💊',
-    'Inventory': '📦',
-    'Pharmacy Company': '🏢',
-    'Add Company': '➕',
-    'Manage Company': '🏢',
-    'Medicine': '💊',
-    'Add Medicine': '➕',
-    'Manage Medicine': '💊',
-    'Pharmacist': '👨⚕️',
-    'Add Pharmacist': '➕',
-    'Manage Pharmacist': '👨⚕️',
-    'Reports': '📈',
-    'Stock Reports': '📊',
-    'Pharmacist Reports': '👨⚕️',
-    'Sales Reports': '💰',
-    'Invoice': '🧾',
-    'Invoice Management': '🧾',
-    'History': '📜',
-    'Sales': '💰'
+    'Dashboard': <MdDashboard />,
+    'Invoice Search': <FaSearch />,
+    'Medicine Inventory': <FaPills />,
+    'Inventory': <MdInventory />,
+    'Pharmacy Company': <MdBusiness />,
+    'Add Company': <FaPlus />,
+    'Manage Company': <FaBuilding />,
+    'Medicine': <FaPills />,
+    'Add Medicine': <FaPlus />,
+    'Manage Medicine': <FaPills />,
+    'Pharmacist': <FaUserMd />,
+    'Add Pharmacist': <FaPlus />,
+    'Manage Pharmacist': <FaUserMd />,
+    'Reports': <FaChartBar />,
+    'Stock Reports': <FaChartBar />,
+    'Pharmacist Reports': <FaUserMd />,
+    'Sales Reports': <FaMoneyBillWave />,
+    'Invoice': <FaFileInvoice />,
+    'Invoice Management': <FaFileInvoice />,
+    'History': <FaHistory />,
+    'Sales': <FaMoneyBillWave />
   };
-  return iconMap[label] || '📄';
+  return iconMap[label] || <FaHome />;
 };
 
 export default Navigation;

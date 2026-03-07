@@ -203,8 +203,8 @@ class InvoicePDFAPIView(APIView):
         
         company_info = {
             'name': 'Pharmacy Yanje',
-            'address': '123 Pharmacy Street, 75001 Paris, France',
-            'phone': '+33 1 23 45 67 89',
+            'address': '23 Pharmacy Street, 5 Gitega, Burundi',
+            'phone': '+257 62595684',
             'email': 'contact@pharmacy.com',
             'siret': '123 456 789 00012'
         }

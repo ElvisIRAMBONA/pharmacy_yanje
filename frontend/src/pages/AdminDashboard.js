@@ -45,19 +45,19 @@ const AdminDashboard = () => {
       </div>
       
       <div className="stats-grid">
-        <div className="stat-card">
+        <div className="stat-card stat-card-blue">
           <h3>Total Inventory Items</h3>
           <p>{stats.total_items || 0}</p>
         </div>
-        <div className="stat-card">
+        <div className="stat-card stat-card-green">
           <h3>Total Medicines</h3>
           <p>{stats.total_medicines || 0}</p>
         </div>
-        <div className="stat-card">
+        <div className="stat-card stat-card-orange">
           <h3>Low Stock Items</h3>
           <p>{stats.low_stock_count || 0}</p>
         </div>
-        <div className="stat-card">
+        <div className="stat-card stat-card-red">
           <h3>Expired Medicines</h3>
           <p>{expiredMeds.length}</p>
         </div>

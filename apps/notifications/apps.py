@@ -6,3 +6,6 @@ class NotificationsConfig(AppConfig):
     name = 'apps.notifications'
     verbose_name = 'Notifications'
 
+    def ready(self):
+        import apps.notifications.signals
+

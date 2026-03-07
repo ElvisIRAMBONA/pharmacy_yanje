@@ -11,6 +11,8 @@ import {
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { salesAPI, inventoryAPI, medicinesAPI } from '../services/api';
+import BackButton from '../components/BackButton';
+import { FaChartLine, FaMoneyBillWave, FaBox, FaPills, FaCreditCard } from 'react-icons/fa';
 
 ChartJS.register(
   CategoryScale,
@@ -81,7 +83,7 @@ const SystemReports = () => {
     labels: ['Today', 'This Month'],
     datasets: [
       {
-        label: 'Revenue ($)',
+        label: 'Revenue (Fbu)',
         data: [salesStats.daily?.total_amount || 0, salesStats.monthly?.total_amount || 0],
         backgroundColor: ['#e74c3c', '#f39c12'],
         borderColor: ['#c0392b', '#e67e22'],
@@ -141,7 +143,11 @@ const SystemReports = () => {
   return (
     <div className="system-reports">
       <div className="page-header">
-        <h2>System Reports</h2>
+        <BackButton />
+        <div>
+          <h2><FaChartLine /> System Reports</h2>
+          <p>Sales Analytics</p>
+        </div>
       </div>
 
       <div className="reports-grid">
@@ -180,7 +186,7 @@ const SystemReports = () => {
           <h3>Key Metrics</h3>
           <div className="metrics-grid">
             <div className="metric-card sales">
-              <div className="metric-icon">📊</div>
+              <div className="metric-icon"><FaChartLine /></div>
               <div className="metric-info">
                 <h4>Today's Sales</h4>
                 <p className="metric-value">{salesStats.daily?.total_sales || 0}</p>
@@ -189,16 +195,16 @@ const SystemReports = () => {
             </div>
             
             <div className="metric-card revenue">
-              <div className="metric-icon">💰</div>
+              <div className="metric-icon"><FaMoneyBillWave /></div>
               <div className="metric-info">
                 <h4>Today's Revenue</h4>
-                <p className="metric-value">${salesStats.daily?.total_amount || 0}</p>
+                <p className="metric-value">{salesStats.daily?.total_amount || 0} Fbu</p>
                 <p className="metric-label">total earnings</p>
               </div>
             </div>
             
             <div className="metric-card inventory">
-              <div className="metric-icon">📦</div>
+              <div className="metric-icon"><FaBox /></div>
               <div className="metric-info">
                 <h4>Low Stock Items</h4>
                 <p className="metric-value">{inventoryStats.low_stock_count || 0}</p>
@@ -207,7 +213,7 @@ const SystemReports = () => {
             </div>
             
             <div className="metric-card medicines">
-              <div className="metric-icon">💊</div>
+              <div className="metric-icon"><FaPills /></div>
               <div className="metric-info">
                 <h4>Expired Medicines</h4>
                 <p className="metric-value">{medicineStats.expired || 0}</p>
@@ -221,13 +227,13 @@ const SystemReports = () => {
       {/* Payment Methods Breakdown */}
       {salesStats.daily?.payment_methods && (
         <div className="report-section">
-          <h3>Today's Payment Methods</h3>
+          <h3><FaCreditCard /> Today's Payment Methods</h3>
           <div className="payment-methods">
             {Object.entries(salesStats.daily.payment_methods).map(([method, data]) => (
               <div key={method} className="payment-method-card">
                 <h4>{method}</h4>
                 <p><strong>Count:</strong> {data.count}</p>
-                <p><strong>Amount:</strong> ${data.amount.toFixed(2)}</p>
+                <p><strong>Amount:</strong> {data.amount.toFixed(2)} Fbu</p>
               </div>
             ))}
           </div>

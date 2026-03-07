@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { authAPI, salesAPI, medicinesAPI } from '../services/api';
+import BackButton from '../components/BackButton';
+import { FaUsers, FaChartLine, FaTrophy, FaPills, FaStar, FaThumbsUp, FaChartBar, FaExclamationTriangle, FaBullseye, FaAward } from 'react-icons/fa';
 
 const PharmacistReports = () => {
   const [pharmacists, setPharmacists] = useState([]);
@@ -80,8 +82,11 @@ const PharmacistReports = () => {
   return (
     <div className="pharmacist-reports">
       <div className="page-header">
-        <h2>Pharmacist Reports</h2>
-        <p>View pharmacist performance reports</p>
+        <BackButton />
+        <div>
+          <h2><FaUsers /> Pharmacist Reports</h2>
+          <p>View pharmacist performance reports</p>
+        </div>
       </div>
 
       {/* Period Selector */}
@@ -101,7 +106,7 @@ const PharmacistReports = () => {
       {/* Overview Cards */}
       <div className="pharmacist-overview">
         <div className="perf-card total">
-          <div className="perf-icon">👥</div>
+          <div className="perf-icon"><FaUsers /></div>
           <div className="perf-info">
             <h3>Total Pharmacists</h3>
             <p className="perf-value">{totalPharmacists}</p>
@@ -110,7 +115,7 @@ const PharmacistReports = () => {
         </div>
 
         <div className="perf-card efficiency">
-          <div className="perf-icon">📊</div>
+          <div className="perf-icon"><FaChartLine /></div>
           <div className="perf-info">
             <h3>Average Efficiency</h3>
             <p className="perf-value">{avgEfficiency}%</p>
@@ -119,7 +124,7 @@ const PharmacistReports = () => {
         </div>
 
         <div className="perf-card top-performer">
-          <div className="perf-icon">🏆</div>
+          <div className="perf-icon"><FaTrophy /></div>
           <div className="perf-info">
             <h3>Top Performer</h3>
             <p className="perf-value">{topPerformer ? `${topPerformer.first_name} ${topPerformer.last_name}` : 'N/A'}</p>
@@ -128,7 +133,7 @@ const PharmacistReports = () => {
         </div>
 
         <div className="perf-card medicines">
-          <div className="perf-icon">💊</div>
+          <div className="perf-icon"><FaPills /></div>
           <div className="perf-info">
             <h3>Medicines Available</h3>
             <p className="perf-value">{medicines.length}</p>
@@ -139,7 +144,7 @@ const PharmacistReports = () => {
 
       {/* Performance Chart */}
       <div className="performance-chart">
-        <h3>Pharmacist Performance - {getPeriodLabel()}</h3>
+        <h3><FaChartBar /> Pharmacist Performance - {getPeriodLabel()}</h3>
         <div className="chart-bars">
           {pharmacists.map(pharmacist => {
             const stats = getPharmacistStats(pharmacist.id);
@@ -154,7 +159,7 @@ const PharmacistReports = () => {
                     className="perf-bar"
                     style={{ height: `${barHeight}px` }}
                   />
-                  <div className="perf-bar-value">${stats.totalRevenue}</div>
+                  <div className="perf-bar-value">{stats.totalRevenue} Fbu</div>
                 </div>
                 <div className="perf-bar-sales">{stats.totalSales} sales</div>
               </div>
@@ -165,7 +170,7 @@ const PharmacistReports = () => {
 
       {/* Detailed Performance Table */}
       <div className="performance-table">
-        <h3>Detailed Performance Analysis</h3>
+        <h3><FaAward /> Detailed Performance Analysis</h3>
         <div className="table-container">
           <table>
             <thead>
@@ -197,8 +202,8 @@ const PharmacistReports = () => {
                     </td>
                     <td>{pharmacist.email}</td>
                     <td>{stats.totalSales}</td>
-                    <td>${stats.totalRevenue.toFixed(2)}</td>
-                    <td>${stats.avgSaleValue.toFixed(2)}</td>
+                    <td>{stats.totalRevenue.toFixed(2)} Fbu</td>
+                    <td>{stats.avgSaleValue.toFixed(2)} Fbu</td>
                     <td>{stats.medicinesHandled}</td>
                     <td>
                       <div className="efficiency-bar">
@@ -211,9 +216,9 @@ const PharmacistReports = () => {
                     </td>
                     <td>
                       <span className={`performance-badge ${performanceLevel}`}>
-                        {performanceLevel === 'excellent' ? '🌟 Excellent' :
-                         performanceLevel === 'good' ? '👍 Good' :
-                         performanceLevel === 'average' ? '📊 Average' : '⚠️ Needs Improvement'}
+                        {performanceLevel === 'excellent' ? <><FaStar /> Excellent</> :
+                         performanceLevel === 'good' ? <><FaThumbsUp /> Good</> :
+                         performanceLevel === 'average' ? <><FaChartBar /> Average</> : <><FaExclamationTriangle /> Needs Improvement</>}
                       </span>
                     </td>
                   </tr>
@@ -226,25 +231,25 @@ const PharmacistReports = () => {
 
       {/* Performance Insights */}
       <div className="performance-insights">
-        <h3>Performance Insights</h3>
+        <h3><FaBullseye /> Performance Insights</h3>
         <div className="insights-grid">
           <div className="insight-card">
-            <h4>🎯 Team Performance</h4>
+            <h4><FaBullseye /> Team Performance</h4>
             <p>Average team efficiency is <strong>{avgEfficiency}%</strong> for {getPeriodLabel().toLowerCase()}.</p>
             {avgEfficiency >= 85 && <p className="insight-positive">Excellent team performance!</p>}
             {avgEfficiency < 75 && <p className="insight-warning">Consider additional training or support.</p>}
           </div>
           
           <div className="insight-card">
-            <h4>📈 Growth Opportunities</h4>
+            <h4><FaChartLine /> Growth Opportunities</h4>
             <p>Focus on improving efficiency for pharmacists below 80% performance.</p>
             <p>Consider implementing performance incentives.</p>
           </div>
           
           <div className="insight-card">
-            <h4>🏆 Recognition</h4>
+            <h4><FaTrophy /> Recognition</h4>
             {topPerformer && (
-              <p><strong>{topPerformer.first_name} {topPerformer.last_name}</strong> is the top performer with ${topPerformer.stats.totalRevenue} in revenue.</p>
+              <p><strong>{topPerformer.first_name} {topPerformer.last_name}</strong> is the top performer with {topPerformer.stats.totalRevenue} Fbu in revenue.</p>
             )}
             <p>Consider recognizing high performers to maintain motivation.</p>
           </div>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { medicinesAPI } from '../services/api';
 import MedicineForm from '../components/MedicineForm';
+import BackButton from '../components/BackButton';
+import { FaPills, FaPlus, FaEdit, FaTrash, FaTag, FaBoxes, FaBarcode, FaCalendarAlt, FaCheckCircle, FaBan } from 'react-icons/fa';
 
 const MedicinesList = () => {
   const [medicines, setMedicines] = useState([]);
@@ -60,9 +62,13 @@ const MedicinesList = () => {
   return (
     <div className="medicines-list">
       <div className="page-header">
-        <h2>Medicines</h2>
+        <BackButton />
+        <div>
+          <h2><FaPills /> Medicines</h2>
+          <p>Manage medicine inventory</p>
+        </div>
         <button onClick={handleAdd} className="btn btn-primary">
-          Add Medicine
+          <FaPlus /> Add Medicine
         </button>
       </div>
       
@@ -83,15 +89,15 @@ const MedicinesList = () => {
           <tbody>
             {medicines.map(medicine => (
               <tr key={medicine.id}>
-                <td>{medicine.name}</td>
-                <td>{medicine.category}</td>
-                <td>${medicine.price}</td>
+                <td><strong>{medicine.name}</strong></td>
+                <td><span className="category-badge">{medicine.category}</span></td>
+                <td className="price-cell">{medicine.price} Fbu</td>
                 <td>{medicine.quantity}</td>
                 <td>{medicine.batch_number || 'N/A'}</td>
                 <td>{medicine.expiration_date}</td>
                 <td>
                   <span className={`status ${medicine.is_expired ? 'expired' : 'active'}`}>
-                    {medicine.is_expired ? 'Expired' : 'Active'}
+                    {medicine.is_expired ? <><FaBan /> Expired</> : <><FaCheckCircle /> Active</>}
                   </span>
                 </td>
                 <td>
@@ -101,14 +107,14 @@ const MedicinesList = () => {
                       className="btn btn-sm btn-secondary"
                       title="Edit"
                     >
-                      ✏️
+                      <FaEdit /> Edit
                     </button>
                     <button 
                       onClick={() => handleDelete(medicine.id)}
                       className="btn btn-sm btn-danger"
                       title="Delete"
                     >
-                      🗑️
+                      <FaTrash /> Delete
                     </button>
                   </div>
                 </td>

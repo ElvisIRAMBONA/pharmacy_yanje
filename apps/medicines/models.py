@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 from apps.suppliers.models import Supplier
 
 
@@ -11,6 +12,14 @@ class Medicine(models.Model):
     batch_number = models.CharField(max_length=50, blank=True, null=True)
     expiration_date = models.DateField()
     supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def clean(self):
+        if self.expiration_date and self.expiration_date < timezone.now().date():
+            raise ValidationError({'expiration_date': 'Cannot add expired medicine. Expiration date must be in the future.'})
+    
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} ({self.category})"

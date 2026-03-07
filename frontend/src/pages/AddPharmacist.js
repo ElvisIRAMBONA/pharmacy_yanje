@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { authAPI } from '../services/api';
 import BackButton from '../components/BackButton';
+import { FaUserMd, FaUser, FaEnvelope, FaIdBadge, FaLock, FaUserTag, FaPlus, FaEraser } from 'react-icons/fa';
 
 const AddPharmacist = () => {
   const [formData, setFormData] = useState({
@@ -78,7 +79,10 @@ const AddPharmacist = () => {
     <div className="add-pharmacist">
       <div className="page-header">
         <BackButton to="/pharmacist/manage" label="Back to Pharmacists" />
-        <h2>Add New Pharmacist</h2>
+        <div>
+          <h2><FaUserMd /> Add New Pharmacist</h2>
+          <p>Create a new pharmacist account</p>
+        </div>
       </div>
 
       <div className="form-container">
@@ -88,7 +92,7 @@ const AddPharmacist = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label>Username *</label>
+              <label><FaUser /> Username *</label>
               <input
                 type="text"
                 name="username"
@@ -100,7 +104,7 @@ const AddPharmacist = () => {
             </div>
 
             <div className="form-group">
-              <label>Email *</label>
+              <label><FaEnvelope /> Email *</label>
               <input
                 type="email"
                 name="email"
@@ -114,7 +118,7 @@ const AddPharmacist = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label>First Name *</label>
+              <label><FaIdBadge /> First Name *</label>
               <input
                 type="text"
                 name="first_name"
@@ -126,7 +130,7 @@ const AddPharmacist = () => {
             </div>
 
             <div className="form-group">
-              <label>Last Name *</label>
+              <label><FaIdBadge /> Last Name *</label>
               <input
                 type="text"
                 name="last_name"
@@ -140,7 +144,7 @@ const AddPharmacist = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label>Password *</label>
+              <label><FaLock /> Password *</label>
               <input
                 type="password"
                 name="password"
@@ -153,7 +157,7 @@ const AddPharmacist = () => {
             </div>
 
             <div className="form-group">
-              <label>Role</label>
+              <label><FaUserTag /> Role</label>
               <select
                 name="role"
                 value={formData.role}
@@ -174,7 +178,7 @@ const AddPharmacist = () => {
               disabled={loading} 
               className="btn btn-primary"
             >
-              {loading ? 'Creating Pharmacist...' : 'Create Pharmacist Account'}
+              {loading ? 'Creating Pharmacist...' : <><FaPlus /> Create Pharmacist Account</>}
             </button>
             <button 
               type="button" 
@@ -188,7 +192,7 @@ const AddPharmacist = () => {
               })}
               className="btn btn-secondary"
             >
-              Clear Form
+              <FaEraser /> Clear Form
             </button>
           </div>
         </form>

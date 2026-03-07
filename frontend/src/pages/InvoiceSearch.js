@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { salesAPI } from '../services/api';
 import BackButton from '../components/BackButton';
+import { FaDownload, FaSearch, FaTimes, FaFileInvoice } from 'react-icons/fa';
 
 const InvoiceSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -87,7 +88,10 @@ const InvoiceSearch = () => {
     <div className="invoice-search">
       <div className="page-header">
         <BackButton />
-        <h2>Invoice Search</h2>
+        <div>
+          <h2><FaFileInvoice /> Invoice Search</h2>
+          <p>Search and download invoices</p>
+        </div>
       </div>
 
       <div className="search-controls">
@@ -102,25 +106,30 @@ const InvoiceSearch = () => {
             <option value="date">Date</option>
           </select>
           
-          <input
-            type="text"
-            placeholder={`Search by ${searchType}...`}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
-          />
+          <div className="search-input-wrapper">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder={`Search by ${searchType}...`}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
           
           <button 
             onClick={() => setSearchTerm('')}
             className="btn btn-secondary"
           >
-            Clear
+            <FaTimes /> Clear
           </button>
         </div>
       </div>
 
       <div className="search-results">
-        <p>{filteredSales.length} invoice(s) found</p>
+        <div className="results-header">
+          <p className="results-count">{filteredSales.length} invoice(s) found</p>
+        </div>
         
         <div className="table-container">
           <table>
@@ -136,25 +145,34 @@ const InvoiceSearch = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredSales.map(sale => (
-                <tr key={sale.id}>
-                  <td>#{sale.id}</td>
-                  <td>{sale.customer_name}</td>
-                  <td>{new Date(sale.date).toLocaleDateString()}</td>
-                  <td>${sale.total_amount}</td>
-                  <td>${sale.final_amount}</td>
-                  <td>{sale.payment_method}</td>
-                  <td>
-                    <button 
-                      onClick={() => downloadInvoice(sale.id)}
-                      className="btn btn-sm btn-primary"
-                      title="Download Invoice"
-                    >
-                      📄
-                    </button>
+              {filteredSales.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="no-results">
+                    <FaFileInvoice size={48} />
+                    <p>No invoices found</p>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredSales.map(sale => (
+                  <tr key={sale.id}>
+                    <td><span className="invoice-id">#{sale.id}</span></td>
+                    <td><strong>{sale.customer_name}</strong></td>
+                    <td>{new Date(sale.date).toLocaleDateString()}</td>
+                    <td className="amount">{sale.total_amount} Fbu</td>
+                    <td className="amount final-amount">{sale.final_amount} Fbu</td>
+                    <td><span className="payment-badge">{sale.payment_method}</span></td>
+                    <td>
+                      <button 
+                        onClick={() => downloadInvoice(sale.id)}
+                        className="btn btn-sm btn-primary"
+                        title="Download Invoice"
+                      >
+                        <FaDownload /> Download
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

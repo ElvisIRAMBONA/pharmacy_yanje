@@ -272,25 +272,25 @@
                         {% endif %}
                     </td>
                     <td class="text-center">{{ item.quantity }}</td>
-                    <td class="text-right">{{ item.price|floatformat:2 }} €</td>
-                    <td class="text-right">{{ item.total|floatformat:2 }} €</td>
+                    <td class="text-right">{{ item.price|floatformat:2 }} Fbu</td>
+                    <td class="text-right">{{ item.total|floatformat:2 }} Fbu</td>
                 </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="4" class="text-right">Sous-total:</td>
-                    <td class="text-right">{{ sale.total_amount|floatformat:2 }} €</td>
+                    <td class="text-right">{{ sale.total_amount|floatformat:2 }} Fbu</td>
                 </tr>
                 {% if sale.discount > 0 %}
                 <tr>
                     <td colspan="4" class="text-right">Remise:</td>
-                    <td class="text-right">-{{ sale.discount|floatformat:2 }} €</td>
+                    <td class="text-right">-{{ sale.discount|floatformat:2 }} Fbu</td>
                 </tr>
                 {% endif %}
                 <tr class="total-row">
                     <td colspan="4" class="text-right">TOTAL:</td>
-                    <td class="text-right">{{ sale.final_amount|floatformat:2 }} €</td>
+                    <td class="text-right">{{ sale.final_amount|floatformat:2 }} Fbu</td>
                 </tr>
             </tfoot>
         </table>
@@ -300,7 +300,7 @@
             <h4>Informations de paiement</h4>
             <p>Mode de paiement: <strong>{{ sale.get_payment_method_display }}</strong></p>
             {% if sale.discount > 0 %}
-            <p>Une remise de <strong>{{ sale.discount|floatformat:2 }}€</strong> a été appliquée.</p>
+            <p>Une remise de <strong>{{ sale.discount|floatformat:2 }} Fbu</strong> a été appliquée.</p>
             {% endif %}
         </div>
         

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { salesAPI, medicinesAPI } from '../services/api';
+import BackButton from '../components/BackButton';
+import { FaFileInvoice, FaPlus, FaList, FaTrash, FaDownload, FaUser, FaCreditCard, FaTag } from 'react-icons/fa';
 
 const InvoiceManagement = () => {
   const [activeTab, setActiveTab] = useState('create');
@@ -143,7 +145,11 @@ const InvoiceManagement = () => {
   return (
     <div className="invoice-management">
       <div className="page-header">
-        <h2>Invoice Management</h2>
+        <BackButton />
+        <div>
+          <h2><FaFileInvoice /> Invoice Management</h2>
+          <p>Create and manage invoices</p>
+        </div>
       </div>
 
       <div className="invoice-tabs">
@@ -151,13 +157,13 @@ const InvoiceManagement = () => {
           className={`tab-btn ${activeTab === 'create' ? 'active' : ''}`}
           onClick={() => setActiveTab('create')}
         >
-          Create Invoice
+          <FaPlus /> Create Invoice
         </button>
         <button 
           className={`tab-btn ${activeTab === 'manage' ? 'active' : ''}`}
           onClick={() => setActiveTab('manage')}
         >
-          Manage Invoices ({sales.length})
+          <FaList /> Manage Invoices ({sales.length})
         </button>
       </div>
 
@@ -166,7 +172,7 @@ const InvoiceManagement = () => {
           <div className="invoice-form">
             <div className="form-row">
               <div className="form-group">
-                <label>Customer Name</label>
+                <label><FaUser /> Customer Name</label>
                 <input
                   type="text"
                   value={invoiceData.customer_name}
@@ -175,7 +181,7 @@ const InvoiceManagement = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Payment Method</label>
+                <label><FaCreditCard /> Payment Method</label>
                 <select
                   value={invoiceData.payment_method}
                   onChange={(e) => setInvoiceData(prev => ({...prev, payment_method: e.target.value}))}
@@ -188,7 +194,7 @@ const InvoiceManagement = () => {
                 </select>
               </div>
               <div className="form-group">
-                <label>Discount ($)</label>
+                <label><FaTag /> Discount (Fbu)</label>
                 <input
                   type="number"
                   step="0.01"
@@ -218,7 +224,7 @@ const InvoiceManagement = () => {
                     <option value="">Select medicine</option>
                     {medicines.map(medicine => (
                       <option key={medicine.id} value={medicine.id}>
-                        {medicine.name} - ${medicine.price}
+                      {medicine.name} - {medicine.price} Fbu
                       </option>
                     ))}
                   </select>
@@ -233,7 +239,7 @@ const InvoiceManagement = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Price ($)</label>
+                  <label>Price (Fbu)</label>
                   <input
                     type="number"
                     step="0.01"
@@ -244,7 +250,7 @@ const InvoiceManagement = () => {
                 <div className="form-group">
                   <label>&nbsp;</label>
                   <button type="button" onClick={addItemToInvoice} className="btn btn-primary">
-                    Add Item
+                    <FaPlus /> Add Item
                   </button>
                 </div>
               </div>
@@ -269,15 +275,15 @@ const InvoiceManagement = () => {
                         <tr key={item.id}>
                           <td>{item.medicine.name}</td>
                           <td>{item.quantity}</td>
-                          <td>${item.price.toFixed(2)}</td>
-                          <td>${(item.quantity * item.price).toFixed(2)}</td>
+                          <td>{item.price.toFixed(2)} Fbu</td>
+                          <td>{(item.quantity * item.price).toFixed(2)} Fbu</td>
                           <td>
                             <button 
                               onClick={() => removeItem(item.id)}
                               className="btn btn-sm btn-danger"
                               title="Remove"
                             >
-                              🗑️
+                              <FaTrash />
                             </button>
                           </td>
                         </tr>
@@ -289,15 +295,15 @@ const InvoiceManagement = () => {
                 <div className="invoice-summary">
                   <div className="summary-row">
                     <span>Subtotal:</span>
-                    <span>${calculateTotal().toFixed(2)}</span>
+                    <span>{calculateTotal().toFixed(2)} Fbu</span>
                   </div>
                   <div className="summary-row">
                     <span>Discount:</span>
-                    <span>-${(invoiceData.discount || 0).toFixed(2)}</span>
+                    <span>-{(invoiceData.discount || 0).toFixed(2)} Fbu</span>
                   </div>
                   <div className="summary-row total">
                     <span>Total:</span>
-                    <span>${calculateFinalAmount().toFixed(2)}</span>
+                    <span>{calculateFinalAmount().toFixed(2)} Fbu</span>
                   </div>
                 </div>
 
@@ -336,15 +342,15 @@ const InvoiceManagement = () => {
                     <td>#{sale.id}</td>
                     <td>{sale.customer_name}</td>
                     <td>{new Date(sale.date).toLocaleDateString()}</td>
-                    <td>${sale.final_amount}</td>
-                    <td>{sale.payment_method}</td>
+                    <td>{sale.final_amount} Fbu</td>
+                    <td><span className="payment-badge">{sale.payment_method}</span></td>
                     <td>
                       <button 
                         onClick={() => downloadInvoice(sale.id)}
                         className="btn btn-sm btn-primary"
                         title="Download Invoice"
                       >
-                        📄
+                        <FaDownload /> Download
                       </button>
                     </td>
                   </tr>

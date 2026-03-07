@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from .email_utils import send_notification_email
 
 User = get_user_model()
 
@@ -7,6 +8,7 @@ User = get_user_model()
 class Notification(models.Model):
     NOTIFICATION_TYPES = [
         ('low_stock', 'Low Stock'),
+        ('expired', 'Expired Medicine'),
         ('sale', 'New Sale'),
         ('system', 'System'),
     ]
@@ -69,5 +71,42 @@ class Notification(models.Model):
                     message=f'The stock for {medicine_name} has fallen to {new_stock} units (reorder level: {reorder_level}). Please reorder soon.',
                     priority=priority,
                     related_object_id=inventory_item.medicine.id
+                )
+                
+                # Envoyer l'email
+                send_notification_email(
+                    admin_user,
+                    f'⚠️ Low Stock Alert: {medicine_name}',
+                    f'The stock for {medicine_name} has fallen to {new_stock} units (reorder level: {reorder_level}). Please reorder soon.'
+                )
+
+    @classmethod
+    def create_expired_notification(cls, medicine):
+        """Create an expired medicine notification for admin users"""
+        admins = User.objects.filter(role='admin')
+        
+        for admin_user in admins:
+            existing = cls.objects.filter(
+                user=admin_user,
+                notification_type='expired',
+                related_object_id=medicine.id,
+                is_read=False
+            ).first()
+            
+            if not existing:
+                cls.objects.create(
+                    user=admin_user,
+                    notification_type='expired',
+                    title=f'🚨 Expired Medicine: {medicine.name}',
+                    message=f'{medicine.name} (Batch: {medicine.batch_number or "N/A"}) expired on {medicine.expiration_date}. Remove from inventory immediately.',
+                    priority='critical',
+                    related_object_id=medicine.id
+                )
+                
+                # Envoyer l'email
+                send_notification_email(
+                    admin_user,
+                    f'🚨 Expired Medicine: {medicine.name}',
+                    f'{medicine.name} (Batch: {medicine.batch_number or "N/A"}) expired on {medicine.expiration_date}. Remove from inventory immediately.'
                 )
 

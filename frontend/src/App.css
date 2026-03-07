@@ -177,6 +177,9 @@
 
 .brand-icon {
   font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .brand-text {
@@ -192,6 +195,9 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar-toggle:hover {
@@ -242,6 +248,9 @@
 .nav-icon {
   font-size: 1.2rem;
   min-width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-text {
@@ -255,6 +264,9 @@
 .dropdown-arrow {
   font-size: 0.8rem;
   transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dropdown-arrow.open {
@@ -289,6 +301,9 @@
 .dropdown-icon {
   font-size: 1rem;
   min-width: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar-footer {
@@ -297,6 +312,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: relative;
 }
 
 .notification-container {
@@ -355,6 +371,7 @@
   overflow-y: auto;
   z-index: 1000;
   margin-bottom: 0.5rem;
+  min-width: 320px;
 }
 
 .user-menu-btn {
@@ -2172,12 +2189,55 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   text-align: center;
+  border-left: 4px solid #ddd;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card-blue {
+  border-left-color: #3498db;
+  background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+}
+
+.stat-card-green {
+  border-left-color: #2ecc71;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f5e9 100%);
+}
+
+.stat-card-orange {
+  border-left-color: #f39c12;
+  background: linear-gradient(135deg, #ffffff 0%, #fff3e0 100%);
+}
+
+.stat-card-red {
+  border-left-color: #e74c3c;
+  background: linear-gradient(135deg, #ffffff 0%, #ffebee 100%);
 }
 
 .stat-card h3 {
   margin: 0 0 0.5rem 0;
   color: #666;
   font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.stat-card-blue h3 {
+  color: #2980b9;
+}
+
+.stat-card-green h3 {
+  color: #27ae60;
+}
+
+.stat-card-orange h3 {
+  color: #e67e22;
+}
+
+.stat-card-red h3 {
+  color: #c0392b;
 }
 
 .stat-card p {
@@ -2185,6 +2245,22 @@
   font-size: 2rem;
   font-weight: bold;
   color: #2c3e50;
+}
+
+.stat-card-blue p {
+  color: #2980b9;
+}
+
+.stat-card-green p {
+  color: #27ae60;
+}
+
+.stat-card-orange p {
+  color: #e67e22;
+}
+
+.stat-card-red p {
+  color: #c0392b;
 }
 
 .alerts {
@@ -2450,7 +2526,7 @@ th {
 }
 
 .admin-welcome, .pharmacist-welcome {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
   color: white;
   padding: 2rem;
   border-radius: 8px;
@@ -2459,7 +2535,7 @@ th {
 }
 
 .admin-welcome {
-  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
 }
 
 .pharmacist-welcome {
@@ -3309,4 +3385,786 @@ body.dark-mode .charts-container {
   .theme-preview {
     margin-top: 1rem;
   }
+}
+
+/* Invoice Search Styles */
+.invoice-search {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.invoice-search .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.invoice-search .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.invoice-search .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-input-wrapper .search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.search-input-wrapper .search-input {
+  padding-left: 2.5rem;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.results-count {
+  margin: 0;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.invoice-id {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.amount {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.final-amount {
+  color: #2ecc71;
+  font-size: 1.05rem;
+}
+
+.payment-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #999;
+}
+
+.no-results svg {
+  color: #ddd;
+  margin-bottom: 1rem;
+}
+
+.no-results p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.invoice-search .btn-sm {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+body.dark-mode .invoice-search .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .invoice-search .page-header p {
+  color: #adb5bd;
+}
+
+body.dark-mode .results-header {
+  background: #2c3e50;
+}
+
+body.dark-mode .results-count {
+  color: #ecf0f1;
+}
+
+body.dark-mode .invoice-id {
+  background: #1e3a5f;
+  color: #64b5f6;
+}
+
+body.dark-mode .amount {
+  color: #ecf0f1;
+}
+
+body.dark-mode .payment-badge {
+  background: #1e3a2e;
+  color: #66bb6a;
+}
+
+/* Stock Reports Enhanced Styles */
+.stock-reports {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.stock-reports .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stock-icon {
+  font-size: 2.5rem;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stock-visualization h3,
+.stock-filters h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2c3e50;
+}
+
+.alert h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+body.dark-mode .stock-visualization h3,
+body.dark-mode .stock-filters h3 {
+  color: #ecf0f1;
+}
+
+/* Pharmacist Reports Enhanced Styles */
+.pharmacist-reports {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.pharmacist-reports .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.pharmacist-reports .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.pharmacist-reports .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.perf-icon {
+  font-size: 2.5rem;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.performance-chart h3,
+.performance-table h3,
+.performance-insights h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2c3e50;
+}
+
+.insight-card h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+}
+
+.performance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+body.dark-mode .pharmacist-reports .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .pharmacist-reports .page-header p {
+  color: #adb5bd;
+}
+
+body.dark-mode .performance-chart h3,
+body.dark-mode .performance-table h3,
+body.dark-mode .performance-insights h3 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .insight-card h4 {
+  color: #ecf0f1;
+}
+
+/* System Reports Enhanced Styles */
+.system-reports {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.system-reports .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.system-reports .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.system-reports .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.metric-icon {
+  font-size: 2.5rem;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.report-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2c3e50;
+}
+
+body.dark-mode .system-reports .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .system-reports .page-header p {
+  color: #adb5bd;
+}
+
+body.dark-mode .report-section h3 {
+  color: #ecf0f1;
+}
+
+/* Invoice Management Enhanced Styles */
+.invoice-management {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.invoice-management .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.invoice-management .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.invoice-management .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.invoice-tabs .tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.invoice-management .form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.invoice-management .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body.dark-mode .invoice-management .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .invoice-management .page-header p {
+  color: #adb5bd;
+}
+
+/* History Page Enhanced Styles */
+.history-page {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.history-page .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.history-page .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.history-page .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.history-controls .date-selector label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.daily-summary h3,
+.activity-breakdown h3,
+.user-activities h3,
+.activity-filter h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2c3e50;
+}
+
+.activity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.dark-mode .history-page .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .history-page .page-header p {
+  color: #adb5bd;
+}
+
+body.dark-mode .history-controls .date-selector label {
+  color: #ecf0f1;
+}
+
+body.dark-mode .daily-summary h3,
+body.dark-mode .activity-breakdown h3,
+body.dark-mode .user-activities h3,
+body.dark-mode .activity-filter h3 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .activity-badge {
+  background: #1e3a2e;
+  color: #66bb6a;
+}
+
+/* Manage Company Enhanced Styles */
+.manage-company {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.manage-company .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.manage-company .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.manage-company .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.manage-company table th {
+  font-weight: 600;
+  color: #495057;
+  text-align: left;
+}
+
+.manage-company .action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.manage-company .action-buttons .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.manage-company .modal h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.manage-company .form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body.dark-mode .manage-company .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .manage-company .page-header p {
+  color: #adb5bd;
+}
+
+/* Medicines List Enhanced Styles */
+.medicines-list {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.medicines-list .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.medicines-list .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.medicines-list .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.medicines-list .page-header .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.medicines-list table th {
+  font-weight: 600;
+  color: #495057;
+  text-align: left;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.price-cell {
+  font-weight: 600;
+  color: #2ecc71;
+}
+
+.medicines-list .status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.medicines-list .action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.medicines-list .action-buttons .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body.dark-mode .medicines-list .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .medicines-list .page-header p {
+  color: #adb5bd;
+}
+
+body.dark-mode .category-badge {
+  background: #1e3a5f;
+  color: #64b5f6;
+}
+
+body.dark-mode .price-cell {
+  color: #66bb6a;
+}
+
+/* Manage Pharmacist Enhanced Styles */
+.manage-pharmacist {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.manage-pharmacist .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.manage-pharmacist .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.manage-pharmacist .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.manage-pharmacist .role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.manage-pharmacist .action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.manage-pharmacist .action-buttons .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.manage-pharmacist .modal h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.manage-pharmacist .form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body.dark-mode .manage-pharmacist .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .manage-pharmacist .page-header p {
+  color: #adb5bd;
+}
+
+/* Add Pharmacist Enhanced Styles */
+.add-pharmacist {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.add-pharmacist .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.add-pharmacist .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.add-pharmacist .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.add-pharmacist .form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-pharmacist .form-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body.dark-mode .add-pharmacist .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .add-pharmacist .page-header p {
+  color: #adb5bd;
+}
+
+/* Inventory List Enhanced Styles */
+.inventory-list {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.inventory-list .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.inventory-list .page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.inventory-list .page-header p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.inventory-list .page-header .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inventory-list .status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body.dark-mode .inventory-list .page-header h2 {
+  color: #ecf0f1;
+}
+
+body.dark-mode .inventory-list .page-header p {
+  color: #adb5bd;
 }

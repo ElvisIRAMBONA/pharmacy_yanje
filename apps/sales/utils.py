@@ -20,8 +20,8 @@ def generate_invoice_html(sale, sale_items, company_info=None):
     if company_info is None:
         company_info = {
             'name': 'Pharmacy Yanje',
-            'address': '123 Pharmacy Street, Paris, France',
-            'phone': '+33 1 23 45 67 89',
+            'address': '23 Pharmacy Street, 5 Gitega, Burundi',
+            'phone': '+257 62595684',
             'email': 'contact@pharmacy.com',
             'siret': '123 456 789 00012'
         }

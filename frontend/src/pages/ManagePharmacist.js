@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { authAPI } from '../services/api';
+import BackButton from '../components/BackButton';
+import { FaUserMd, FaEdit, FaTrash, FaUser, FaEnvelope, FaIdBadge, FaLock } from 'react-icons/fa';
 
 const ManagePharmacist = () => {
   const [pharmacists, setPharmacists] = useState([]);
@@ -75,7 +77,11 @@ const ManagePharmacist = () => {
   return (
     <div className="manage-pharmacist">
       <div className="page-header">
-        <h2>Manage Pharmacists</h2>
+        <BackButton />
+        <div>
+          <h2><FaUserMd /> Manage Pharmacists</h2>
+          <p>View and manage pharmacist accounts</p>
+        </div>
       </div>
 
       <div className="table-container">
@@ -92,12 +98,12 @@ const ManagePharmacist = () => {
           <tbody>
             {pharmacists.map(pharmacist => (
               <tr key={pharmacist.id}>
-                <td>{pharmacist.username}</td>
+                <td><strong>{pharmacist.username}</strong></td>
                 <td>{`${pharmacist.first_name} ${pharmacist.last_name}`}</td>
                 <td>{pharmacist.email}</td>
                 <td>
                   <span className="role-badge pharmacist">
-                    👨⚕️ {pharmacist.role}
+                    <FaUserMd /> {pharmacist.role}
                   </span>
                 </td>
                 <td>
@@ -107,14 +113,14 @@ const ManagePharmacist = () => {
                       className="btn btn-sm btn-secondary"
                       title="Edit"
                     >
-                      ✏️
+                      <FaEdit /> Edit
                     </button>
                     <button 
                       onClick={() => handleDelete(pharmacist.id)}
                       className="btn btn-sm btn-danger"
                       title="Delete"
                     >
-                      🗑️
+                      <FaTrash /> Delete
                     </button>
                   </div>
                 </td>
@@ -133,11 +139,11 @@ const ManagePharmacist = () => {
       {showEditForm && (
         <div className="modal-overlay">
           <div className="modal">
-            <h3>Edit Pharmacist Account</h3>
+            <h3><FaEdit /> Edit Pharmacist Account</h3>
             
             <form onSubmit={handleEditSubmit}>
               <div className="form-group">
-                <label>Username *</label>
+                <label><FaUser /> Username *</label>
                 <input
                   type="text"
                   name="username"
@@ -148,7 +154,7 @@ const ManagePharmacist = () => {
               </div>
               
               <div className="form-group">
-                <label>Email *</label>
+                <label><FaEnvelope /> Email *</label>
                 <input
                   type="email"
                   name="email"
@@ -159,7 +165,7 @@ const ManagePharmacist = () => {
               </div>
               
               <div className="form-group">
-                <label>First Name *</label>
+                <label><FaIdBadge /> First Name *</label>
                 <input
                   type="text"
                   name="first_name"
@@ -170,7 +176,7 @@ const ManagePharmacist = () => {
               </div>
               
               <div className="form-group">
-                <label>Last Name *</label>
+                <label><FaIdBadge /> Last Name *</label>
                 <input
                   type="text"
                   name="last_name"
@@ -181,7 +187,7 @@ const ManagePharmacist = () => {
               </div>
               
               <div className="form-group">
-                <label>New Password (leave empty to keep current)</label>
+                <label><FaLock /> New Password (leave empty to keep current)</label>
                 <input
                   type="password"
                   name="password"

@@ -5,6 +5,7 @@ from .models import Medicine
 from .serializers import MedicineSerializer
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from apps.users.permissions import IsAdminOrPharmacist
 
@@ -20,8 +21,12 @@ class MedicineListCreateAPIView(APIView):
     def post(self, request):
         serializer = MedicineSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except ValidationError as e:
+                error_message = e.message_dict.get('expiration_date', ['Invalid expiration date'])[0]
+                return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -38,8 +43,12 @@ class MedicineDetailAPIView(APIView):
         medicine = get_object_or_404(Medicine, pk=pk)
         serializer = MedicineSerializer(medicine, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            try:
+                serializer.save()
+                return Response(serializer.data)
+            except ValidationError as e:
+                error_message = e.message_dict.get('expiration_date', ['Invalid expiration date'])[0]
+                return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):

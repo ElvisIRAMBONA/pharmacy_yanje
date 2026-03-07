@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import BackButton from '../components/BackButton';
+import { FaHistory, FaChartBar, FaUsers, FaMoneyBillWave, FaFileInvoice, FaPlus, FaEdit, FaTrash, FaShoppingCart, FaSignInAlt, FaSignOutAlt, FaBox, FaFile, FaCalendarAlt, FaFilter } from 'react-icons/fa';
 
 const History = () => {
   const navigate = useNavigate();
@@ -39,29 +40,31 @@ const History = () => {
 
   const getActivityIcon = (actionType) => {
     const icons = {
-      'create': '➕',
-      'update': '✏️',
-      'delete': '🗑️',
-      'sale': '💰',
-      'login': '🔐',
-      'logout': '🚪',
-      'stock_update': '📦',
-      'invoice_generated': '📄'
+      'create': <FaPlus />,
+      'update': <FaEdit />,
+      'delete': <FaTrash />,
+      'sale': <FaShoppingCart />,
+      'login': <FaSignInAlt />,
+      'logout': <FaSignOutAlt />,
+      'stock_update': <FaBox />,
+      'invoice_generated': <FaFileInvoice />
     };
-    return icons[actionType] || '📝';
+    return icons[actionType] || <FaFile />;
   };
 
   return (
     <div className="history-page">
       <div className="page-header">
         <BackButton />
-        <h2>Daily Activity History</h2>
-        <p>Track daily operations and system activities</p>
+        <div>
+          <h2><FaHistory /> Daily Activity History</h2>
+          <p>Track daily operations and system activities</p>
+        </div>
       </div>
 
       <div className="history-controls">
         <div className="date-selector">
-          <label>Select Date:</label>
+          <label><FaCalendarAlt /> Select Date:</label>
           <input
             type="date"
             value={selectedDate}
@@ -76,31 +79,31 @@ const History = () => {
       ) : (
         <>
           <div className="daily-summary">
-            <h3>Daily Summary - {selectedDate}</h3>
+            <h3><FaChartBar /> Daily Summary - {selectedDate}</h3>
             <div className="summary-cards">
               <div className="summary-card">
-                <div className="card-icon">📊</div>
+                <div className="card-icon"><FaChartBar /></div>
                 <div className="card-info">
                   <h4>Total Activities</h4>
                   <p>{dailySummary.total_activities || 0}</p>
                 </div>
               </div>
               <div className="summary-card">
-                <div className="card-icon">👥</div>
+                <div className="card-icon"><FaUsers /></div>
                 <div className="card-info">
                   <h4>Active Users</h4>
                   <p>{dailySummary.unique_users || 0}</p>
                 </div>
               </div>
               <div className="summary-card">
-                <div className="card-icon">💰</div>
+                <div className="card-icon"><FaMoneyBillWave /></div>
                 <div className="card-info">
                   <h4>Sales Made</h4>
                   <p>{dailySummary.activity_breakdown?.['Sale Made'] || 0}</p>
                 </div>
               </div>
               <div className="summary-card">
-                <div className="card-icon">📄</div>
+                <div className="card-icon"><FaFileInvoice /></div>
                 <div className="card-info">
                   <h4>Invoices Generated</h4>
                   <p>{dailySummary.activity_breakdown?.['Invoice Generated'] || 0}</p>
@@ -134,7 +137,7 @@ const History = () => {
           </div>
 
           <div className="activity-filter">
-            <h3>Activity Log</h3>
+            <h3><FaFilter /> Activity Log</h3>
             <div className="filter-buttons">
               <button 
                 className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
@@ -183,7 +186,8 @@ const History = () => {
                         <td>{activity.user_name}</td>
                         <td>
                           <span className="activity-badge">
-                            {getActivityIcon(activity.action_type)} {activity.action_display}
+                            <span className="badge-icon">{getActivityIcon(activity.action_type)}</span>
+                            {activity.action_display}
                           </span>
                         </td>
                         <td>{activity.description}</td>
