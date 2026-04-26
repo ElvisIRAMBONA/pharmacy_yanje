@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import BackButton from '../components/BackButton';
-import { FaHistory, FaChartBar, FaUsers, FaMoneyBillWave, FaFileInvoice, FaPlus, FaEdit, FaTrash, FaShoppingCart, FaSignInAlt, FaSignOutAlt, FaBox, FaFile, FaCalendarAlt, FaFilter } from 'react-icons/fa';
+import { FaHistory, FaChartBar, FaUsers, FaMoneyBillWave, FaFileInvoice, FaPlus, FaEdit, FaTrash, FaShoppingCart, FaSignInAlt, FaSignOutAlt, FaBox, FaFile, FaCalendarAlt, FaFilter, FaSyncAlt, FaExclamationTriangle, FaChartPie, FaDownload, FaCircle } from 'react-icons/fa';
 
 const History = () => {
   const navigate = useNavigate();
