@@ -4,6 +4,8 @@ Django==6.0.3
 django-cors-headers==4.9.0
 djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
+gunicorn==25.3.0
+packaging==26.2
 PyJWT==2.11.0
 python-dotenv==1.2.2
 sqlparse==0.5.5
